@@ -8,7 +8,9 @@ import Question from "../question";
 import Other from "../other";
 import Task from "../task";
 import AddClient from "../add-client"
+import Organisation from "../add-organisation";
 import InfoTask from "../task/info-task";
+import Profile from "../profile/profile";
 import "./App.css";
 
 export default class App extends Component {
@@ -20,11 +22,13 @@ export default class App extends Component {
         <Routes>
           <Route path="/" element={<LoginForm />} />
           <Route path="/homepage" element={<HomePage />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<HardwereSettings />} />
           <Route path="/question" element={<Question />} />
           <Route path="/other" element={<Other />} />
           <Route path="/task" element={<Task />} />
-          <Route path="/addclient" element={<AddClient />} />
+          <Route path="/addclient" element={<AddClient />} /> 
+          <Route path="/addorganisation" element={<Organisation />} />
           <Route path="/infotask" element={<InfoTask />} />
         </Routes>
       </>

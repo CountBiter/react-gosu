@@ -1,7 +1,92 @@
-import React, { Component } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import React, { Component, useState } from "react";
+import { ADD_TASK, GET_TYPE } from "../../apollo-client/apollo-request";
+
+import { image1, imageLogo } from "../../image/img";
 
 import Header from "../header";
 
+function AddTask() {
+  const userToken = JSON.parse(localStorage.getItem("token"));
+
+  const [addTask, { loading, error }] = useMutation(ADD_TASK);
+  const [shopName, setShopNameState] = useState("");
+  const [priority, setPriorityState] = useState("");
+  const [text, setTextState] = useState("");
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error : {error.message}</p>;
+
+  return (
+    <form className="p-5 text-start">
+      <div className="mb-3">
+        <label className="form-label">
+          Укажите название магазина или торговой точки:
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="exampleFormControlInput1"
+          onChange={(e) => setShopNameState(e.target.value)}
+        />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Укажите приоритет:</label>
+        <select
+          className="form-select mb-3"
+          id="exampleFormControlInput1"
+          aria-label="select"
+          onChange={(e) => setPriorityState(e.target.value)}
+        >
+          <option selected disabled>
+            {" "}
+          </option>
+          <option>Обычный</option>
+          <option>Высокий</option>
+          <option>Критический</option>
+        </select>
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Опишите проблему:</label>
+        <textarea
+          className="form-control"
+          id="exampleFormControlTextarea1"
+          rows="1"
+          onChange={(e) => setTextState(e.target.value)}
+        ></textarea>
+      </div>
+      <div className="form-floating">
+        <button
+          className="btn btn-primary col-12 text-uppercase fs-6 fw-bolder py-2"
+          onClick={(e) => {
+            e.preventDefault();
+            addTask({
+              variables: {
+                taskData: {
+                  title: "Настройка оборудования",
+                  description: text,
+                  create_date: `${Date.now()}`,
+                  priority: priority,
+                  mata_tags: [shopName],
+                  files: [
+                    {
+                      name: "asd",
+                      create_date: `${Date.now()}`,
+                      file_url: "asd",
+                    },
+                  ],
+                },
+                token: userToken.token,
+              },
+            });
+          }}
+        >
+          Создать заявку
+        </button>
+      </div>
+    </form>
+  );
+}
 export default class HardwereSettings extends Component {
   render() {
     return (
@@ -9,11 +94,7 @@ export default class HardwereSettings extends Component {
         <div>
           <div className="position-absolute d-flex align-items-center my-2 col-12">
             <div className="col-2 col-md-3 col-lg-2">
-              <img
-                className="col-10 col-md-5"
-                alt="GosuLogo"
-                src="../assets/logoBlue.png"
-              />
+              <img className="col-10 col-md-5" alt="GosuLogo" src={imageLogo} />
             </div>
             <div className="col my-2"></div>
             <div className="col-2 text-end d-flex align-items-center justify-content-evenly pe-5">
@@ -33,69 +114,20 @@ export default class HardwereSettings extends Component {
                 <h5>ru</h5>
               </div>
             </div>
-            <div className="col-1 text-start"><Header /></div>
+            <div className="col-1 text-start">
+              <Header />
+            </div>
           </div>
           <div className="height container-fluid d-flex flex-column align-items-center justify-content-center mb-5 mb-md-0">
             <div className="col-11">
               <div className="btn bg-primary bg-opacity-50 col-9 col-md-3 py-3 py-md-4 px-md-3 mt-md-0 mt-5">
-                <img className="col-2 mb-3" src="..\assets\image1.png" alt="" />
+                <img className="col-2 mb-3" src={image1} alt="" />
                 <h4 className="text4">Настройка оборудования</h4>
                 <input type="text" className="d-none" />
               </div>
             </div>
             <div className="card bg-primary bg-opacity-50 mt-2 mt-md-5 px-md-5">
-              <form className="p-5 text-start">
-                <div className="mb-3">
-                  <label className="form-label">
-                    Укажите название магазина или торговой точки:
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="exampleFormControlInput1"
-                  />
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">
-                    Укажите контактный телефон:
-                  </label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    id="exampleFormControlInput2"
-                    placeholder="8(777)777-77-77"
-                  />
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Укажите приоритет:</label>
-                  <select
-                    className="form-select mb-3"
-                    id="exampleFormControlInput1"
-                    aria-label="select"
-                  >
-                    <option selected disabled>
-                      {" "}
-                    </option>
-                    <option value="Обычный">Обычный</option>
-                    <option value="Высокий">Высокий</option>
-                    <option value="Критический">Критический</option>
-                  </select>
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Опишите проблему:</label>
-                  <textarea
-                    className="form-control"
-                    id="exampleFormControlTextarea1"
-                    rows="1"
-                  ></textarea>
-                </div>
-                <div className="form-floating">
-                  <button
-                    className="btn btn-primary col-12 text-uppercase fs-6 fw-bolder py-2"
-                    id="login"
-                  >Добавить</button>
-                </div>
-              </form>
+              <AddTask />
             </div>
           </div>
         </div>
