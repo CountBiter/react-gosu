@@ -24,6 +24,7 @@ function AllTask({ page = 0 }) {
       </tr>
     );
 
+  console.log(data.getAllTasks);
   return data.getAllTasks.map(
     (
       {
@@ -31,7 +32,7 @@ function AllTask({ page = 0 }) {
         implementer_id,
         priority,
         state_id,
-        description,
+        mata_tags,
         create_date,
         title,
       },
@@ -42,9 +43,16 @@ function AllTask({ page = 0 }) {
           {_id}
         </th>
         <td className="btn" key={(i + Math.random()).toString()}>
-          <a href="/infotask" onClick={() => localStorage.setItem("taskId", _id)}>{title}</a>
+          <a
+            href="/infotask"
+            onClick={() => localStorage.setItem("taskId", _id)}
+          >
+            {title}
+          </a>
         </td>
-        <td key={(i + Math.random()).toString()}>{description}</td>
+        <td key={(i + Math.random()).toString()}>
+          {mata_tags.map((item) => `${item}, `)}
+        </td>
         <td key={(i + Math.random()).toString()}>
           {implementer_id !== null
             ? implementer_id.forEach((i) => `${i}, `)
@@ -57,8 +65,6 @@ function AllTask({ page = 0 }) {
     )
   );
 }
-
-
 
 export default class Task extends Component {
   constructor(props) {
