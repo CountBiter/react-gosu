@@ -71,7 +71,7 @@ function ForHomePage() {
       <div>
         <div className="d-flex justify-content-evenly mt-5 pb-md-5">
           <div className="btn bg-primary bg-opacity-50 col-4 col-md-3 py-4 px-3">
-            <a href="/">
+            <a href="/addclient">
               <img className="col-3 mb-3" src={image5} alt="" />
               <h4 className="text4">Добавить сотрудника</h4>
             </a>

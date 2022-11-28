@@ -16,7 +16,7 @@ function AddTaskForOther() {
   return (
     <form className="p-5 text-start">
       <div className="mb-3">
-        <label for="exampleFormControlInput1" className="form-label">
+        <label className="form-label">
           Укажите название магазина или торговой точки:
         </label>
         <input
@@ -42,20 +42,19 @@ function AddTaskForOther() {
         </select>
       </div>
       <div className="mb-3">
-        <label for="exampleFormControlTextarea1" className="form-label">
+        <label  className="form-label">
           Опишите проблему:
         </label>
         <textarea
           className="form-control"
           id="exampleFormControlTextarea1"
           rows="2"
-          v-model="postOtherData.description"
           onChange={(e) => setTextState(e.target.value)}
         ></textarea>
       </div>
       <div className="mb-3 position-relative">
         <input id="addfile" type="file" hidden="hidden" />
-        <label className="btn p-0 m-0" for="addfile" id="addfile-btn">
+        <label className="btn p-0 m-0"  id="addfile-btn">
           <i className="bi bi-paperclip h4 d-inline-block"></i>
           <h5
             className="m-0 text-secondary my-auto d-inline-block"

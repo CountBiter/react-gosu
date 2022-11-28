@@ -135,6 +135,28 @@ export const GET_ALL_COMMENTS_TO_TASK = gql`
   }
 `;
 
+export const GET_ALL_ROLES = gql`
+  query GetRole {
+    getAllRoles {
+      _id
+      title
+      icon
+      description
+      permmission {
+        _id
+        title
+        description
+        implementer
+        state
+        priority
+        files
+        comments
+        admin
+      }
+    }
+  }
+`;
+
 export const ADD_TASK = gql`
   mutation addTask($taskData: inputTask, $token: String) {
     addTask(taskData: $taskData, token: $token) {
@@ -294,7 +316,7 @@ export const ADD_ROLE = gql`
 // }
 
 export const ADD_USER_FOR_ADMIN = gql`
-  mutation AddUsers($user: inputUsers) {
+  mutation Mutation($user: inputUsers) {
     addUsers(user: $user) {
       _id
       first_name
@@ -325,6 +347,16 @@ export const ADD_USER_FOR_ADMIN = gql`
 //     "telegram_chat_id": null
 //   }
 // }
+
+export const ADD_USER_ROLE = gql`
+  mutation Mutation($roleId: String, $userId: String) {
+    addUserRoles(roleId: $roleId, userId: $userId) {
+      _id
+      user_id
+      role_id
+    }
+  }
+`;
 
 export const ADD_PARAMS_TO_TASK = gql`
   mutation FileUpload($taskId: String, $params: inputTaskParams) {
