@@ -180,4 +180,29 @@ function ForIntoTaskPage() {
   return "Ok";
 }
 
+function ForProfile() {
+  const userToken = JSON.parse(localStorage.getItem("token"));
+
+  const { loading, error, data } = useQuery(GET_USERROLE, {
+    variables: {
+      token: userToken.token,
+    },
+  });
+
+  if (loading) {
+    return <div>Loading..</div>;
+  }
+  if (error) {
+    return <div>error</div>;
+  }
+
+  const { permmission } = data.getRole;
+  if (permmission.files && permmission.title && permmission.description) {
+  } else if (
+    (permmission.implementer && permmission.state && permmission.priority) ||
+    permmission.admin
+  ) {
+  }
+}
+
 export { ForHomePage, ForTaskPage, ForIntoTaskPage };

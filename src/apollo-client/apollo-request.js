@@ -157,6 +157,32 @@ export const GET_ALL_ROLES = gql`
   }
 `;
 
+export const GET_ALL_USER_TASKS = gql`
+  query GetAllUserTasks($token: String) {
+    getAllUserTasks(token: $token) {
+      _id
+      task_type_id
+      title
+      description
+      create_date
+      acceptence_date
+      finished_date
+      author_id
+      implementer_id
+      state_id
+      priority
+      mata_tags
+      files {
+        _id
+        name
+        author_id
+        create_date
+        file_url
+      }
+    }
+  }
+`;
+
 export const ADD_TASK = gql`
   mutation addTask($taskData: inputTask, $token: String) {
     addTask(taskData: $taskData, token: $token) {

@@ -7,18 +7,14 @@ import {
   ADD_USER_ROLE,
 } from "../../../apollo-client/apollo-request";
 
-import MultiSelect from "react-multiple-select-dropdown-lite";
 
 function SelectOptionOrg() {
   const { data, loading, error } = useQuery(GET_ALLORGANISATIONS);
-  const [optionValue, setOptionValue] = useState("");
 
   if (loading) return <option>Loading...</option>;
   if (error) return <option>Error : {error.message}</option>;
 
   const { getAllOrganisations } = data;
-
-  const allOrg = [];
 
   return getAllOrganisations.map((item) => (
     <option key={Math.random()} value={item._id}>
@@ -29,7 +25,6 @@ function SelectOptionOrg() {
 
 function SelectOptionUserParams() {
   const { data, loading, error } = useQuery(GET_ALL_ROLES);
-  const [optionValue, setOptionValue] = useState([]);
 
   if (loading) return <option>Loading...</option>;
   if (error) return <option>Error : {error.message}</option>;
@@ -55,13 +50,6 @@ function AddClientForm() {
   if (loading) return <option>Loading...</option>;
   if (error) return <option>Error : {error.message}</option>;
 
-  const validateEmail = (login) => {
-    return String(login)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-  };
   return (
     <form className="p-5 text-start">
       <div className="mb-3">
@@ -145,9 +133,9 @@ function AddClientForm() {
         <button
           className="btn btn-primary col-12 text-uppercase fs-6 fw-bolder py-2"
           id="login"
-          onClick={() => {
-            let userId;
-            addUsers({
+          onClick={async () => {
+            let user_id;
+            await addUsers({
               variables: {
                 user: {
                   first_name: userName,
@@ -157,19 +145,19 @@ function AddClientForm() {
                   post: null,
                   depaptament: null,
                   organisation_id: userOrg,
-                  login: validateEmail(userEmail)[2],
+                  login: userEmail,
                   hashed_password: userPassword,
                   telegram_chat_id: null,
                 },
               },
             }).then((data) => {
-              console.log(data.data)
-              userId = data.data.addUsers._id;
+              user_id = data.data.addUsers._id;
+              return data;
             });
             addUserRoles({
               variables: {
                 roleId: userRole,
-                userId: userId,
+                userId: user_id,
               },
             });
           }}

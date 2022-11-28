@@ -10,16 +10,8 @@ export default class LoginForm extends Component {
 
     const { login, password } = document.forms[0];
 
-    const validateEmail = (login) => {
-      return String(login)
-        .toLowerCase()
-        .match(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        );
-    };
-
     const userToken = await PostLoginForm({
-      login: validateEmail(login.value)[2],
+      login: login.value,
       password: password.value,
     });
 
