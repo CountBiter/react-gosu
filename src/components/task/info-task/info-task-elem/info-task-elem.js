@@ -1,13 +1,17 @@
 import { useState } from "react";
 
 import { useMutation, useQuery } from "@apollo/client";
-import { GET_ONE_TASK } from "../../../../apollo-client/apollo-request";
+import {
+  ADD_FILE_TO_TASK,
+  GET_ONE_TASK,
+} from "../../../../apollo-client/apollo-request";
 import { GET_ALL_COMMENTS_TO_TASK } from "../../../../apollo-client/apollo-request";
 import { ADD_COMMENT_TO_TASK } from "../../../../apollo-client/apollo-request";
 import { GET_USER } from "../../../../apollo-client/apollo-request";
 import { GET_STATE_TO_TASK } from "../../../../apollo-client/apollo-request";
 
-import { ForIntoTaskPage } from "../../../if-not-user";
+import {  ForIntoTaskPage } from "../../../if-not-user";
+import UploadFile from "../../../upload-file";
 
 function AddCommentsToTask() {
   const taskId = localStorage.getItem("taskId");
@@ -95,10 +99,13 @@ function TaskComments() {
 }
 
 function Task() {
+  const userToken = JSON.parse(localStorage.getItem("token"));
   const taskId = localStorage.getItem("taskId");
   const { data, loading, error } = useQuery(GET_ONE_TASK, {
     variables: { taskId: taskId },
   });
+  const [addFileToTask] = useMutation(ADD_FILE_TO_TASK);
+  const [file, setFile] = useState();
 
   if (loading) {
     return <p>Loading...</p>;
@@ -132,9 +139,10 @@ function Task() {
   }
 
   function GetState() {
-    const {data, loading, error} = useQuery(GET_STATE_TO_TASK, {
-        variables: {stateId: getTask.state_id}
-    })
+    const { data, loading, error } = useQuery(GET_STATE_TO_TASK, {
+      variables: { stateId: getTask.state_id },
+    });
+
     if (loading) {
       return <p>Loading...</p>;
     }
@@ -142,9 +150,9 @@ function Task() {
       return <p>{error.message} </p>;
     }
     if (data.getState === null) {
-        return <span>без статуса</span>
+      return <span>без статуса</span>;
     } else {
-        return <span>{data.getState.title}</span>
+      return <span>{data.getState.title}</span>;
     }
   }
 
@@ -177,15 +185,38 @@ function Task() {
                       className="m-0 text-secondary my-auto d-inline-block"
                       id="addfile-text"
                     >
-                      <input id="addfile" type="file" hidden="hidden" />+
-                      прикрепить файл
+                      <input
+                        id="addfile"
+                        type="file"
+                        hidden="hidden"
+                        onChange={async (e) => {
+                          setFile(await UploadFile(e.target.files[0]));
+                        }}
+                      />
+                      + прикрепить файл
                     </h5>
                   </label>
                 </div>
               </div>
 
               <div className="card-footer bg-transparent py-3">
-                <button className="btn bg-primary bg-opacity-50 text-primary fw-bolder">
+                <button
+                  className="btn bg-primary bg-opacity-50 text-primary fw-bolder"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    addFileToTask({
+                      variables: {
+                        taskId: taskId,
+                        fileData: {
+                          name: file.file_name,
+                          create_date: `${Date.now()}`,
+                          file_url: file.file_url,
+                        },
+                        token: userToken.token,
+                      },
+                    });
+                  }}
+                >
                   Сохранить
                 </button>
               </div>
@@ -195,14 +226,6 @@ function Task() {
                 <TaskComments />
                 <AddCommentsToTask />
               </div>
-            </div>
-            <div className="mt-5 d-none d-md-block">
-              <button className="btn bg-primary text-light">
-                <h5>Отменить заявку</h5>
-              </button>
-              <button className="btn bg-light text-primary mx-3">
-                <h5>Закрыть заявку</h5>
-              </button>
             </div>
           </div>
           <div className="col-md-4 bg-Success">
@@ -225,7 +248,9 @@ function Task() {
                 </div>
                 <div className="row py-2">
                   <div className="col text-secondary">Статус:</div>
-                  <div className="col"><GetState /></div>
+                  <div className="col">
+                    <GetState />
+                  </div>
                 </div>
                 <div className="row border-top py-2 pt-4 d-flex justify-content-around">
                   <button className="btn col-5 bg-primary text-light">
@@ -238,15 +263,6 @@ function Task() {
               </div>
             </div>
             <ForIntoTaskPage />
-            <div className="mt-4 d-md-none row mb-4">
-              <button className="btn bg-primary text-light col mx-1">
-                {" "}
-                <h5 className="text4">Отменить заявку</h5>{" "}
-              </button>
-              <button className="btn bg-light text-primary col mx-1">
-                <h5 className="text4">Закрыть заявку</h5>{" "}
-              </button>
-            </div>
           </div>
         </div>
       </div>

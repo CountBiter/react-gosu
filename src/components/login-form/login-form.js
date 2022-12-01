@@ -16,6 +16,7 @@ export default class LoginForm extends Component {
     });
 
     localStorage.setItem("token", JSON.stringify(userToken))
+    localStorage.setItem("login", login.value)
     if (userToken.token) {
       // eslint-disable-next-line no-restricted-globals
       document.location = "/homepage"

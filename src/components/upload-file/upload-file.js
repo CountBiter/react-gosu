@@ -1,21 +1,20 @@
 const UploadFile = async (file) => {
-  console.log(file)
   const formData = new FormData();
 
-  formData.append("file", file);
+  formData.append("data", file);
 
-  const fileUrl = fetch("https://lis.4dev.kz/upload", {
+  const fileUrl = await fetch("http://localhost:5000/upload", {
     method: "POST",
     body: formData,
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
   })
-    .then((r) => r.json())
-    .then((data) => {
-      return data;
+    .then(async (r) => {
+      return r.json();
+    })
+    .then(async (data) => {
+      console.log(await data);
+      return await data;
     });
-  return fileUrl;
+  return await fileUrl;
 };
 
 export default UploadFile;

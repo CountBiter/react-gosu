@@ -6,7 +6,10 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
 import { useQuery } from "@apollo/client";
-import { GET_ALL_USER_TASKS } from "../../../apollo-client/apollo-request";
+import {
+  GET_ALL_USER_TASKS,
+  GET_ALL_USER_IMPLEMENTER_TASKS,
+} from "../../../apollo-client/apollo-request";
 
 function UserTask() {
   const userToken = JSON.parse(localStorage.getItem("token"));
@@ -67,7 +70,59 @@ function UserTask() {
 }
 
 function IAmImplemtnter() {
-  
+  const userToken = JSON.parse(localStorage.getItem("token"));
+  const { data, loading, error } = useQuery(GET_ALL_USER_IMPLEMENTER_TASKS, {
+    variables: { token: userToken.token },
+  });
+
+  if (loading) return <tr>Loading...</tr>;
+  if (error) return <tr>Error : {error.message}</tr>;
+
+  const { getAllUserImplementerTasks } = data;
+
+  if (getAllUserImplementerTasks === null) {
+    <tr>У вас нет задач</tr>;
+  } else {
+    return getAllUserImplementerTasks.map(
+      (
+        {
+          _id,
+          implementer_id,
+          priority,
+          state_id,
+          mata_tags,
+          create_date,
+          title,
+        },
+        i
+      ) => (
+        <tr key={(i + Math.random()).toString()}>
+          <th scope="row" key={(i + Math.random()).toString()}>
+            {_id}
+          </th>
+          <td className="btn" key={(i + Math.random()).toString()}>
+            <a
+              href="/infotask"
+              onClick={() => localStorage.setItem("taskId", _id)}
+            >
+              {title}
+            </a>
+          </td>
+          <td key={(i + Math.random()).toString()}>
+            {mata_tags.map((item) => `${item}, `)}
+          </td>
+          <td key={(i + Math.random()).toString()}>
+            {implementer_id !== null
+              ? implementer_id.forEach((i) => `${i}, `)
+              : null}
+          </td>
+          <td key={(i + Math.random()).toString()}>{create_date}</td>
+          <td key={(i + Math.random()).toString()}>{priority}</td>
+          <td key={(i + Math.random()).toString()}>{state_id}</td>
+        </tr>
+      )
+    );
+  }
 }
 
 function MyTask() {
@@ -120,7 +175,7 @@ function MyWorkTask() {
             </tr>
           </thead>
           <tbody>
-            <UserTask />
+            <IAmImplemtnter />
           </tbody>
         </table>
       </div>
@@ -148,7 +203,10 @@ function LabTabs() {
           {" "}
           <MyTask />{" "}
         </TabPanel>
-        <TabPanel value="2">Item Two</TabPanel>
+        <TabPanel value="2">
+          {" "}
+          <MyWorkTask />{" "}
+        </TabPanel>
       </TabContext>
     </Box>
   );

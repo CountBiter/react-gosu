@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Header from "../../header";
+import { ForInfoTask } from "../../if-not-user";
 
 import Task from "./info-task-elem";
-
 
 export default class InfoTask extends Component {
   render() {
@@ -14,7 +14,10 @@ export default class InfoTask extends Component {
           <div className="col-1 text-start"> </div>
         </div>
         <Task />
-        <div className="py-5"></div>
+        <div className="py-5">
+          {" "}
+          <ForInfoTask />
+        </div>
       </div>
     );
   }

@@ -1,3 +1,3 @@
 import AddClientForm from "./add-client-elem";
 
-export default AddClientForm
+export default AddClientForm;

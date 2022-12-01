@@ -11,12 +11,11 @@ import AddClient from "../add-client"
 import Organisation from "../add-organisation";
 import InfoTask from "../task/info-task";
 import Profile from "../profile/profile";
+import Role from "../add-role";
 import "./App.css";
 
 export default class App extends Component {
   render() {
-    // const userToken = localStorage.getItem("token");
-
     return (
       <>
         <Routes>
@@ -29,24 +28,10 @@ export default class App extends Component {
           <Route path="/task" element={<Task />} />
           <Route path="/addclient" element={<AddClient />} /> 
           <Route path="/addorganisation" element={<Organisation />} />
+          <Route path="/addrole" element={<Role />} />
           <Route path="/infotask" element={<InfoTask />} />
         </Routes>
       </>
     );
-
-    // if (userToken) {
-    //   return (
-    //     <div className="app">
-    //       <Header />
-    //       <HomePage />
-    //     </div>
-    //   )
-    // } else {
-    //   return (
-    //     <div className="app">
-    //       <LoginForm />
-    //     </div>
-    //   );
-    // }
   }
 }

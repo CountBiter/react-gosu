@@ -183,6 +183,32 @@ export const GET_ALL_USER_TASKS = gql`
   }
 `;
 
+export const GET_ALL_USER_IMPLEMENTER_TASKS = gql`
+  query GetAllUserImplementerTasks($token: String) {
+    getAllUserImplementerTasks(token: $token) {
+      _id
+      task_type_id
+      title
+      description
+      create_date
+      acceptence_date
+      finished_date
+      author_id
+      implementer_id
+      state_id
+      priority
+      mata_tags
+      files {
+        _id
+        name
+        author_id
+        create_date
+        file_url
+      }
+    }
+  }
+`;
+
 export const ADD_TASK = gql`
   mutation addTask($taskData: inputTask, $token: String) {
     addTask(taskData: $taskData, token: $token) {
@@ -358,21 +384,24 @@ export const ADD_USER_FOR_ADMIN = gql`
     }
   }
 `;
-// In request
-// {
-//   "user": {
-//     "first_name": null,
-//     "last_name": null,
-//     "middle_name": null,
-//     "full_name": null,
-//     "post": null,
-//     "depaptament": null,
-//     "organisation_id": null,
-//     "login": null,
-//     "hashed_password": null,
-//     "telegram_chat_id": null
-//   }
-// }
+
+export const UPDATE_USER = gql`
+  mutation Mutation($token: String, $updateData: inputUpdateUsers) {
+    updateUser(token: $token, updateData: $updateData) {
+      _id
+      first_name
+      last_name
+      middle_name
+      full_name
+      post
+      depaptament
+      organisation_id
+      login
+      hashed_password
+      telegram_chat_id
+    }
+  }
+`;
 
 export const ADD_USER_ROLE = gql`
   mutation Mutation($roleId: String, $userId: String) {
@@ -380,6 +409,19 @@ export const ADD_USER_ROLE = gql`
       _id
       user_id
       role_id
+    }
+  }
+`;
+export const ADD_CONTACT = gql`
+  mutation Mutation($typeCi: inputTypeCI, $contact: inputContacts) {
+    addContacts(typeCI: $typeCi, contact: $contact) {
+      _id
+      user_id
+      type_ci {
+        _id
+        title
+        icon
+      }
     }
   }
 `;

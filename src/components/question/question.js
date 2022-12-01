@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 import { image2, imageLogo } from "../../image/img.js";
 
-import UploadFile from "../upload-file";
 
 import AddTaskForQuestion from "./question-elem/question-elem.js";
 

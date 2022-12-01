@@ -1,5 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
+import UploadFile from "../../upload-file";
 import { ADD_TASK } from "../../../apollo-client/apollo-request";
 
 function AddTaskForQuestion() {
@@ -8,6 +9,7 @@ function AddTaskForQuestion() {
   const [question, setQuestionState] = useState("");
   const [priority, setPriorityState] = useState("");
   const [text, setTextState] = useState("");
+  const [file, setFile] = useState();
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
@@ -71,7 +73,9 @@ function AddTaskForQuestion() {
             id="addfile"
             type="file"
             hidden="hidden"
-            // onChange={this.OnChangeFile}
+            onChange={async (e) => {
+              setFile(await UploadFile(e.target.files[0]));
+            }}
           />
           <i className="bi bi-paperclip h4 d-inline-block"></i>
           <h5
@@ -87,6 +91,7 @@ function AddTaskForQuestion() {
         className="btn btn-primary col-12 text-uppercase fs-6 fw-bolder py-2"
         onClick={(e) => {
           e.preventDefault();
+          console.log(file)
           addTask({
             variables: {
               taskData: {
@@ -97,9 +102,9 @@ function AddTaskForQuestion() {
                 mata_tags: [question],
                 files: [
                   {
-                    name: "asd",
+                    name: file.file_name,
                     create_date: `${Date.now()}`,
-                    file_url: "asd",
+                    file_url: file.file_url,
                   },
                 ],
               },

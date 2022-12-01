@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { ADD_TASK } from "../../../apollo-client/apollo-request";
+import UploadFile from "../../upload-file";
 
 function AddTaskForHardSetitng() {
   const userToken = JSON.parse(localStorage.getItem("token"));
@@ -9,6 +10,7 @@ function AddTaskForHardSetitng() {
   const [shopName, setShopNameState] = useState("");
   const [priority, setPriorityState] = useState("");
   const [text, setTextState] = useState("");
+  const [file, setFile] = useState();
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
@@ -51,6 +53,21 @@ function AddTaskForHardSetitng() {
           onChange={(e) => setTextState(e.target.value)}
         ></textarea>
       </div>
+      <div className="mb-3 position-relative">
+        <input id="addfile" type="file" hidden="hidden" />
+        <label className="btn p-0 m-0" id="addfile-btn">
+          <i className="bi bi-paperclip h4 d-inline-block"></i>
+          <h5
+            className="m-0 text-secondary my-auto d-inline-block"
+            id="addfile-text"
+            onChange={async (e) => {
+              setFile(await UploadFile(e.target.files[0]));
+            }}
+          >
+            Файл
+          </h5>
+        </label>
+      </div>
       <div className="form-floating">
         <button
           className="btn btn-primary col-12 text-uppercase fs-6 fw-bolder py-2"
@@ -66,9 +83,9 @@ function AddTaskForHardSetitng() {
                   mata_tags: [shopName],
                   files: [
                     {
-                      name: "asd",
+                      name: file.file_name,
                       create_date: `${Date.now()}`,
-                      file_url: "asd",
+                      file_url: file.file_url,
                     },
                   ],
                 },
