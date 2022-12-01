@@ -209,6 +209,41 @@ export const GET_ALL_USER_IMPLEMENTER_TASKS = gql`
   }
 `;
 
+export const GET_ALL_STASUS = gql`
+  query GetState {
+    getAllState {
+      _id
+      title
+    }
+  }
+`;
+
+export const GET_ALL_TASKS_WITH_STATUS = gql`
+  query Query($statusId: String) {
+    getAllTasksWithStatus(statusId: $statusId) {
+      _id
+      task_type_id
+      title
+      description
+      create_date
+      acceptence_date
+      finished_date
+      author_id
+      implementer_id
+      state_id
+      priority
+      mata_tags
+      files {
+        _id
+        name
+        author_id
+        create_date
+        file_url
+      }
+    }
+  }
+`;
+
 export const ADD_TASK = gql`
   mutation addTask($taskData: inputTask, $token: String) {
     addTask(taskData: $taskData, token: $token) {
