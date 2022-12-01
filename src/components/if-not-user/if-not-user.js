@@ -12,6 +12,7 @@ import {
   image4,
   image5,
   image6,
+  imageLogo,
 } from "../../image/img.js";
 import AddRole from "../add-role/add-role-elem";
 
@@ -111,7 +112,7 @@ function ForTaskPage() {
 
   const { loading, error, data } = useQuery(GET_USERROLE, {
     variables: {
-      token: userToken.token,
+      // token: userToken.token,
     },
   });
 
@@ -260,7 +261,7 @@ function ForAdminAddClient() {
             <img
               className="col-3"
               alt="GosuLogo"
-              src="../assets/logoBlue.png"
+              src={imageLogo}
             />
           </div>
           <div className="col"></div>
@@ -285,12 +286,10 @@ function ForAdminAddClient() {
             <i className="bi bi-door-open-fill text-primary display-6"></i>
           </div>
         </div>
-        <div className="height container-fluid d-flex flex-column align-items-center justify-content-center">
-          <div className="col-11">
-            <div className="btn bg-primary bg-opacity-50 col-3 py-4 px-3">
-              <img className="col-3 mb-3" src="..\assets\image6.png" alt="" />
-              <h4>Пригласить клиента</h4>
-            </div>
+        <div className="container-fluid d-flex flex-column align-items-center justify-content-center">
+          <div className="btn bg-primary bg-opacity-50 col-3 py-4 px-3">
+            <img className="col-3 mb-3" src={image6} alt="" />
+            <h4>Пригласить клиента</h4>
           </div>
           <div className="card col-5 bg-primary bg-opacity-50 mt-5 px-5">
             <AddClientForm />
@@ -330,7 +329,7 @@ function ForAdminAddOrg() {
             <img
               className="col-3"
               alt="GosuLogo"
-              src="../assets/logoBlue.png"
+              src={imageLogo}
             />
           </div>
           <div className="col"></div>
@@ -352,14 +351,14 @@ function ForAdminAddOrg() {
             </div>
           </div>
           <div className="col-1 text-start">
-            <i className="bi bi-door-open-fill text-primary display-6"></i>
+            <i className="bi bi-person-fill text-primary display-6"></i>
           </div>
         </div>
         <div className="height container-fluid d-flex flex-column align-items-center justify-content-center">
           <div className="col-11">
             <div className="btn bg-primary bg-opacity-50 col-3 py-4 px-3">
-              <img className="col-3 mb-3" src="..\assets\image6.png" alt="" />
-              <h4>Пригласить клиента</h4>
+              
+              <h4>Добавить организацию</h4>
             </div>
           </div>
           <div className="card col-5 bg-primary bg-opacity-50 mt-5 px-5">

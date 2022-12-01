@@ -20,9 +20,9 @@ export default class Task extends Component {
           <div id="height">
             <FilterTask />
           </div>
-          <div className="position-absolute d-flex align-items-center my-2">
+          <div className="container-fluid position-absolute d-flex align-items-center my-2">
             <Header />
-            <div className="col-1 text-start"></div>
+            <div className="col-1 text-start"><a href="/profile"><i className="bi bi-person-fill text-primary display-6"></i></a></div>
           </div>
           <div className="py-5"></div>
           <div className=" container-fluid d-flex flex-column align-items-center justify-content-center">

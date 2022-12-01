@@ -12,6 +12,7 @@ export default class HardwereSettings extends Component {
       <>
         <div>
           <div className="position-absolute d-flex align-items-center my-2 col-12">
+            <div className="col-1"></div>
             <div className="col-2 col-md-3 col-lg-2">
               <img className="col-10 col-md-5" alt="GosuLogo" src={imageLogo} />
             </div>
@@ -34,16 +35,16 @@ export default class HardwereSettings extends Component {
               </div>
             </div>
             <div className="col-1 text-start">
-              <Header />
+              <a href="/profile">
+                <i className="bi bi-person-fill text-primary display-6"></i>
+              </a>
             </div>
           </div>
           <div className="height container-fluid d-flex flex-column align-items-center justify-content-center mb-5 mb-md-0">
-            <div className="col-11">
-              <div className="btn bg-primary bg-opacity-50 col-9 col-md-3 py-3 py-md-4 px-md-3 mt-md-0 mt-5">
-                <img className="col-2 mb-3" src={image1} alt="" />
-                <h4 className="text4">Настройка оборудования</h4>
-                <input type="text" className="d-none" />
-              </div>
+            <div className="btn bg-primary bg-opacity-50 col-9 col-md-3 py-3 py-md-4 px-md-3 mt-md-0 mt-5">
+              <img className="col-2 mb-3" src={image1} alt="" />
+              <h4 className="text4">Настройка оборудования</h4>
+              <input type="text" className="d-none" />
             </div>
             <div className="card bg-primary bg-opacity-50 mt-2 mt-md-5 px-md-5">
               <AddTaskForHardSetitng />

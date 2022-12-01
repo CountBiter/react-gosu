@@ -25,13 +25,14 @@ export default class LoginForm extends Component {
   render() {
     return (
       <div className="height container-fluid d-flex flex-column align-items-center justify-content-center">
-        <div className="home align-items-center">
-          <img className="col-2 col- col-xxl-2" src={imageLogo} alt="GosuLogo" />
-        </div>
+        <img className="col-2 col-xxl-1" src={imageLogo} alt="GosuLogo" />
         <div className="card col-lg-4 col-xxl-3 bg-primary bg-opacity-50 mt-4 justify">
-          <div className="card-header d-flex justify-content-evenly"></div>
+          <div className="card-header d-flex justify-content-evenly">
+            <h4>Қаз</h4>
+            <h4>Рус</h4>
+          </div>
           <div className="card-body px-4 mx-3">
-            <div className="my-3">
+            <div className="my-3 text-center">
               <h2 className="text2">Вход в систему</h2>
             </div>
             <form className="mt-5" onSubmit={this.formSubmit}>

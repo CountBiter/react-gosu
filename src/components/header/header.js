@@ -1,24 +1,27 @@
 import React, { Component } from "react";
+import { imageLogo } from "../../image/img";
 
 import "./header.css";
 
 export default class Header extends Component {
   render() {
     return (
-      <header className="bi bi-person-fill text-primary display-6">
-        <div className="col-4 col-md-2">
+      <>
+        <div className="col-4 col-md-2 ps-5">
           <img  
-            className="col-6 col-md-5"
+            className="col-6 col-md-5 ms-3"
             alt="GosuLogo"
-            src="../assets/logoBlue.png"
+            src={imageLogo}
           />
         </div>
         <div className="col d-none d-md-flex"></div>
         <div className="col-2 d-md-none py-2">
           <i className="bi bi-plus-square text-light h1"></i>
         </div>
-        <div className="col-md-4 col-lg-3 col-xl-2 d-none d-md-flex py-2 px-5">
-          <button className="btn form-control text-light py-2"></button>
+        <div className="col-md-4 col-lg-3 col-xl-2 d-none d-md-flex py-2">
+          <a href="/homepage">
+            <button className="btn form-control text-light py-2 px-5">Создать заявку</button>
+          </a>
         </div>
         <div className="col-md-3 col-lg-4 col-xl-3 d-none d-md-flex py-2 px-3">
           <div className="input-group">
@@ -49,7 +52,7 @@ export default class Header extends Component {
             <h5>ru</h5>
           </div>
         </div>
-      </header>
+      </>
     );
   }
 }
