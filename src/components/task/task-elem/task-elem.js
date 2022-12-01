@@ -69,7 +69,6 @@ function AllTask({ page = 0, statusId }) {
 function FilterTask() {
   const { loading, error, data } = useQuery(GET_ALL_STASUS);
 
-
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error : {error.message}</div>;
 
@@ -85,7 +84,7 @@ function FilterTask() {
       className="basic-multi-select"
       classNamePrefix="select"
       onChange={(e) => {
-        localStorage.setItem("statusId", e.value)
+        localStorage.setItem("statusId", e.value);
       }}
       isSearchable={true}
     />
