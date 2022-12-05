@@ -9,6 +9,7 @@ import { useQuery } from "@apollo/client";
 import {
   GET_ALL_USER_TASKS,
   GET_ALL_USER_IMPLEMENTER_TASKS,
+  GET_USER,
 } from "../../../apollo-client/apollo-request";
 
 function UserTask() {
@@ -22,11 +23,33 @@ function UserTask() {
 
   const { getAllUserTasks } = data;
 
-  console.log(data);
-
   if (getAllUserTasks === null) {
     <th>У вас нет задач</th>;
   } else {
+    function GetUserName({ id }) {
+      const { data, loading, error } = useQuery(GET_USER, {
+        variables: { userId: id },
+      });
+
+      if (loading) {
+        return <p>Loading...</p>;
+      }
+      if (error) {
+        return <p>{error.message} </p>;
+      }
+
+      if (data.getUser === null) {
+        return <span>не назначен</span>;
+      } else {
+        return data.getUser.map(({ first_name, middle_name }) => (
+          <span>
+            {first_name} {" "}
+            {middle_name}{", "}
+          </span>
+        ));
+      }
+    }
+
     return getAllUserTasks.map(
       (
         {
@@ -40,11 +63,11 @@ function UserTask() {
         },
         i
       ) => (
-        <tr key={(i + Math.random()).toString()}>
-          <th scope="row" key={(i + Math.random()).toString()}>
+        <tr key={Math.random().toString()}>
+          <th scope="row" key={Math.random().toString()}>
             {_id}
           </th>
-          <td className="btn" key={(i + Math.random()).toString()}>
+          <td className="btn" key={Math.random().toString()}>
             <a
               href="/infotask"
               onClick={() => localStorage.setItem("taskId", _id)}
@@ -52,17 +75,15 @@ function UserTask() {
               {title}
             </a>
           </td>
-          <td key={(i + Math.random()).toString()}>
+          <td key={Math.random().toString()}>
             {mata_tags.map((item) => `${item}, `)}
           </td>
-          <td key={(i + Math.random()).toString()}>
-            {implementer_id !== null
-              ? implementer_id.forEach((i) => `${i}, `)
-              : null}
+          <td key={Math.random().toString()}>
+            <GetUserName id={implementer_id} />
           </td>
-          <td key={(i + Math.random()).toString()}>{create_date}</td>
-          <td key={(i + Math.random()).toString()}>{priority}</td>
-          <td key={(i + Math.random()).toString()}>{state_id}</td>
+          <td key={Math.random().toString()}>{create_date}</td>
+          <td key={Math.random().toString()}>{priority}</td>
+          <td key={Math.random().toString()}>{state_id}</td>
         </tr>
       )
     );
@@ -83,6 +104,30 @@ function IAmImplemtnter() {
   if (getAllUserImplementerTasks === null) {
     <tr>У вас нет задач</tr>;
   } else {
+    function GetUserName({ id }) {
+      const { data, loading, error } = useQuery(GET_USER, {
+        variables: { userId: id },
+      });
+
+      if (loading) {
+        return <p>Loading...</p>;
+      }
+      if (error) {
+        return <p>{error.message} </p>;
+      }
+
+      if (data.getUser === null) {
+        return <span>не назначен</span>;
+      } else {
+        return data.getUser.map(({ first_name, middle_name }) => (
+          <span>
+            {first_name} {" "}
+            {middle_name}{", "}
+          </span>
+        ));
+      }
+    }
+
     return getAllUserImplementerTasks.map(
       (
         {
@@ -96,11 +141,11 @@ function IAmImplemtnter() {
         },
         i
       ) => (
-        <tr key={(i + Math.random()).toString()}>
-          <th scope="row" key={(i + Math.random()).toString()}>
+        <tr key={Math.random().toString()}>
+          <th scope="row" key={Math.random().toString()}>
             {_id}
           </th>
-          <td className="btn" key={(i + Math.random()).toString()}>
+          <td className="btn" key={Math.random().toString()}>
             <a
               href="/infotask"
               onClick={() => localStorage.setItem("taskId", _id)}
@@ -108,23 +153,19 @@ function IAmImplemtnter() {
               {title}
             </a>
           </td>
-          <td key={(i + Math.random()).toString()}>
-            {mata_tags.map((item) => `${item}, `)}
+          <td key={Math.random().toString()}>
+            {mata_tags.map((item) => `${item}`)}
           </td>
-          <td key={(i + Math.random()).toString()}>
-            {implementer_id !== null
-              ? implementer_id.forEach((i) => `${i}, `)
-              : null}
+          <td key={Math.random().toString()}>
+            <GetUserName id={implementer_id} />
           </td>
-          <td key={(i + Math.random()).toString()}>{create_date}</td>
-          <td key={(i + Math.random()).toString()}>{priority}</td>
-          <td key={(i + Math.random()).toString()}>{state_id}</td>
+          <td key={Math.random().toString()}>{create_date}</td>
+          <td key={Math.random().toString()}>{priority}</td>
+          <td key={Math.random().toString()}>{state_id}</td>
         </tr>
       )
     );
   }
-
-  
 }
 
 function MyTask() {

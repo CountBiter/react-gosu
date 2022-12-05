@@ -92,7 +92,7 @@ function TaskComments() {
     }
     return (
       <h4 className="card-title" key={Math.random()}>
-        {item.comments} <br /> <GetUserName />
+        <GetUserName /> <br /> {item.comments}
       </h4>
     );
   });
@@ -117,6 +117,7 @@ function Task() {
   const { getTask } = data;
 
   function GetUserName() {
+    console.log( getTask.implementer_id)
     const { data, loading, error } = useQuery(GET_USER, {
       variables: { userId: getTask.implementer_id },
     });
@@ -126,15 +127,15 @@ function Task() {
     if (error) {
       return <p>{error.message} </p>;
     }
-    if (data.getUser === null) {
+    if (data.getUser.length === 0) {
       return <span>не назначен</span>;
     } else {
-      return (
+      return data.getUser.map(({first_name, middle_name}) => (
         <span>
-          {data.getUser.first_name}
-          {data.getUser.middle_name}
+          {first_name} {" "}
+          {middle_name}<br />
         </span>
-      );
+      ))
     }
   }
 

@@ -13,18 +13,22 @@ export default class Task extends Component {
       page: 0,
     };
   }
+
   render() {
     return (
       <>
         <div>
-          <div id="height">
-            <FilterTask />
-          </div>
+          <div id="height"></div>
           <div className="container-fluid position-absolute d-flex align-items-center my-2">
             <Header />
-            <div className="col-1 text-start"><a href="/profile"><i className="bi bi-person-fill text-primary display-6"></i></a></div>
+            <div className="col-1 text-start">
+              <a href="/profile">
+                <i className="bi bi-person-fill text-primary display-6"></i>
+              </a>
+            </div>
           </div>
           <div className="py-5"></div>
+          <FilterTask />
           <div className=" container-fluid d-flex flex-column align-items-center justify-content-center">
             <div className="col-11">
               <ForTaskPage />
@@ -36,6 +40,8 @@ export default class Task extends Component {
                       <th scope="col">Тема</th>
                       <th scope="col">Наименование</th>
                       <th scope="col">Исполнитель</th>
+                      <th scope="col">Организация</th>
+                      <th scope="col">Заказчик</th>
                       <th scope="col">Дата подачи заявки</th>
                       <th scope="col">Приоритет</th>
                       <th scope="col">Статус</th>

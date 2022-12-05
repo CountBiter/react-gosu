@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALLTASKS = gql`
-  query GetAllTasks($page: Int) {
-    getAllTasks(page: $page) {
+  query GetTaskByState($page: Int, $stateId: String) {
+    getTaskByState(page: $page, stateId: $stateId) {
       _id
       task_type_id
       title
@@ -75,6 +75,20 @@ export const GET_USER = gql`
       login
       hashed_password
       telegram_chat_id
+    }
+  }
+`;
+
+export const GET_ORG = gql`
+  query GetOrgByUserId($userId: String) {
+    getOrgByUserId(userId: $userId) {
+      _id
+      title
+      full_name
+      icon
+      idfification_number
+      kpp
+      oked
     }
   }
 `;

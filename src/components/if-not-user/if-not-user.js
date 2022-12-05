@@ -112,7 +112,7 @@ function ForTaskPage() {
 
   const { loading, error, data } = useQuery(GET_USERROLE, {
     variables: {
-      // token: userToken.token,
+      token: userToken.token,
     },
   });
 
@@ -120,7 +120,7 @@ function ForTaskPage() {
     return <div>Loading..</div>;
   }
   if (error) {
-    return <div>error</div>;
+    return <div>Error : {error.message}</div>;
   }
 
   const { permmission } = data.getRole;
@@ -177,7 +177,11 @@ function ForIntoTaskPage() {
         <div className="card-body pb-0">
           <div className="card-title">Время с момента подачи заявки:</div>
           <h4>
-            <input className="form-control bg-transparent" type="time" />
+            <input
+              className="form-control bg-transparent"
+              type="time"
+              value={"15:12"}
+            />
           </h4>
         </div>
         <div className="card-body">
@@ -258,11 +262,7 @@ function ForAdminAddClient() {
       <div>
         <div className="position-absolute col-12 row d-flex align-items-center">
           <div className="col-3">
-            <img
-              className="col-3"
-              alt="GosuLogo"
-              src={imageLogo}
-            />
+            <img className="col-3" alt="GosuLogo" src={imageLogo} />
           </div>
           <div className="col"></div>
           <div className="col-2 text-end d-flex align-items-center justify-content-evenly px-5">
@@ -326,11 +326,7 @@ function ForAdminAddOrg() {
       <div>
         <div className="position-absolute col-12 row d-flex align-items-center">
           <div className="col-3">
-            <img
-              className="col-3"
-              alt="GosuLogo"
-              src={imageLogo}
-            />
+            <img className="col-3" alt="GosuLogo" src={imageLogo} />
           </div>
           <div className="col"></div>
           <div className="col-2 text-end d-flex align-items-center justify-content-evenly px-5">
@@ -354,13 +350,11 @@ function ForAdminAddOrg() {
             <i className="bi bi-person-fill text-primary display-6"></i>
           </div>
         </div>
-        <div className="height container-fluid d-flex flex-column align-items-center justify-content-center">
-          <div className="col-11">
-            <div className="btn bg-primary bg-opacity-50 col-3 py-4 px-3">
-              
-              <h4>Добавить организацию</h4>
-            </div>
+        <div className="container-fluid d-flex flex-column align-items-center justify-content-center">
+          <div className="btn bg-primary bg-opacity-50 col-3 py-4 px-3">
+            <h4>Добавить организацию</h4>
           </div>
+
           <div className="card col-5 bg-primary bg-opacity-50 mt-5 px-5">
             <AddOrganisation />
           </div>
@@ -425,13 +419,12 @@ function ForAdminAddRole() {
             <i className="bi bi-door-open-fill text-primary display-6"></i>
           </div>
         </div>
-        <div className="height container-fluid d-flex flex-column align-items-center justify-content-center">
-          <div className="col-11">
-            <div className="btn bg-primary bg-opacity-50 col-3 py-4 px-3">
-              <img className="col-3 mb-3" src="..\assets\image6.png" alt="" />
-              <h4>Пригласить клиента</h4>
-            </div>
+        <div className=" container-fluid d-flex flex-column align-items-center justify-content-center">
+          <div className="btn bg-primary bg-opacity-50 col-3 py-4 px-3">
+            <img className="col-3 mb-3" src="..\assets\image6.png" alt="" />
+            <h4>Пригласить клиента</h4>
           </div>
+
           <div className="card col-5 bg-primary bg-opacity-50 mt-5 px-5">
             <AddRole />
           </div>
@@ -459,18 +452,22 @@ function ForInfoTask() {
   const { permmission } = data.getRole;
 
   if (permmission.files && permmission.title && permmission.description) {
-    console.log("OKOKOK")
+    console.log("OKOKOK");
     return (
       <div className="mt-4 d-md row mb-4">
-        <button className="btn bg-primary text-light col mx-1" onClick={(e) => {
-          e.preventDefault();
-          
-        }}>
+        <button
+          className="btn bg-primary text-light col mx-1"
+          onClick={(e) => {
+            e.preventDefault();
+          }}
+        >
           {" "}
           <h5 className="text4">Отменить заявку</h5>{" "}
         </button>
         <button className="btn bg-light text-primary col mx-1">
-          <a href="/task"><h5 className="text4">Закрыть заявку</h5>{" "}</a>
+          <a href="/task">
+            <h5 className="text4">Закрыть заявку</h5>{" "}
+          </a>
         </button>
       </div>
     );
@@ -479,7 +476,7 @@ function ForInfoTask() {
     permmission.admin
   ) {
     return <div></div>;
-  } 
+  }
 }
 
 export {
@@ -490,5 +487,5 @@ export {
   ForAdminAddClient,
   ForAdminAddOrg,
   ForAdminAddRole,
-  ForInfoTask
+  ForInfoTask,
 };

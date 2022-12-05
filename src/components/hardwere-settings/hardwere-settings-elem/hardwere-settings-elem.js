@@ -54,25 +54,32 @@ function AddTaskForHardSetitng() {
         ></textarea>
       </div>
       <div className="mb-3 position-relative">
-        <input id="addfile" type="file" hidden="hidden" />
         <label className="btn p-0 m-0" id="addfile-btn">
-          <i className="bi bi-paperclip h4 d-inline-block"></i>
+          <i className="bi bi-paperclip h4 d-inline-block">
+            {" "}
+            <input
+              id="addfile"
+              type="file"
+              hidden="hidden"
+              onChange={async (e) => {
+                setFile(e.target.files[0]);
+              }}
+            />
+          </i>
           <h5
             className="m-0 text-secondary my-auto d-inline-block"
             id="addfile-text"
-            onChange={async (e) => {
-              setFile(await UploadFile(e.target.files[0]));
-            }}
           >
-            Файл
+            {file === undefined ? "Файл" : file.name}
           </h5>
         </label>
       </div>
       <div className="form-floating">
         <button
           className="btn btn-primary col-12 text-uppercase fs-6 fw-bolder py-2"
-          onClick={(e) => {
+          onClick={async (e) => {
             e.preventDefault();
+            const fileData = await UploadFile(file)
             addTask({
               variables: {
                 taskData: {
@@ -83,9 +90,9 @@ function AddTaskForHardSetitng() {
                   mata_tags: [shopName],
                   files: [
                     {
-                      name: file.file_name,
+                      name: fileData.file_name,
                       create_date: `${Date.now()}`,
-                      file_url: file.file_url,
+                      file_url: fileData.file_url,
                     },
                   ],
                 },

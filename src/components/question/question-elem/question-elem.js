@@ -73,8 +73,8 @@ function AddTaskForQuestion() {
             id="addfile"
             type="file"
             hidden="hidden"
-            onChange={async (e) => {
-              setFile(await UploadFile(e.target.files[0]));
+            onChange={(e) => {
+              setFile(e.target.files[0]);
             }}
           />
           <i className="bi bi-paperclip h4 d-inline-block"></i>
@@ -82,16 +82,16 @@ function AddTaskForQuestion() {
             className="m-0 text-secondary my-auto d-inline-block"
             id="addfile-text"
           >
-            Файл
+            {file === undefined ? "Файл" : file.name}
           </h5>
         </label>
       </div>
       <div className="form-floating"></div>
       <button
         className="btn btn-primary col-12 text-uppercase fs-6 fw-bolder py-2"
-        onClick={(e) => {
+        onClick={async (e) => {
           e.preventDefault();
-          console.log(file)
+          const fileData = await UploadFile(e.target.files[0]) 
           addTask({
             variables: {
               taskData: {
@@ -102,9 +102,9 @@ function AddTaskForQuestion() {
                 mata_tags: [question],
                 files: [
                   {
-                    name: file.file_name,
+                    name: fileData.file_name,
                     create_date: `${Date.now()}`,
-                    file_url: file.file_url,
+                    file_url: fileData.file_url,
                   },
                 ],
               },

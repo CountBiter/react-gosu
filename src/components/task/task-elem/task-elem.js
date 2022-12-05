@@ -3,13 +3,18 @@ import {
   GET_ALLTASKS,
   GET_ALL_STASUS,
   GET_ALL_TASKS_WITH_STATUS,
+  GET_ORG,
+  GET_USER,
 } from "../../../apollo-client/apollo-request";
 import Select from "react-select";
 import { useState } from "react";
 
-function AllTask({ page = 0, statusId }) {
+function AllTask({ page = 0 }) {
   const { loading, error, data } = useQuery(GET_ALLTASKS, {
-    variables: { page: page },
+    variables: {
+      page: page,
+      stateId: localStorage.getItem("statusId"),
+    },
   });
 
   if (loading)
@@ -24,46 +29,101 @@ function AllTask({ page = 0, statusId }) {
         <td>Error : {error.message}</td>
       </tr>
     );
-
-  return data.getAllTasks.map(
-    (
-      {
-        _id,
-        implementer_id,
-        priority,
-        state_id,
-        mata_tags,
-        create_date,
-        title,
+  function GetOrgName({ id }) {
+    const { data, loading, error } = useQuery(GET_ORG, {
+      variables: {
+        userId: id,
       },
-      i
-    ) => (
-      <tr key={(i + Math.random()).toString()}>
-        <th scope="row" key={(i + Math.random()).toString()}>
-          {_id}
-        </th>
-        <td className="btn" key={(i + Math.random()).toString()}>
-          <a
-            href="/infotask"
-            onClick={() => localStorage.setItem("taskId", _id)}
-          >
-            {title}
-          </a>
-        </td>
-        <td key={(i + Math.random()).toString()}>
-          {mata_tags.map((item) => `${item}, `)}
-        </td>
-        <td key={(i + Math.random()).toString()}>
-          {implementer_id !== null
-            ? implementer_id.forEach((i) => `${i}, `)
-            : null}
-        </td>
-        <td key={(i + Math.random()).toString()}>{create_date}</td>
-        <td key={(i + Math.random()).toString()}>{priority}</td>
-        <td key={(i + Math.random()).toString()}>{state_id}</td>
+    });
+
+    if (loading) {
+      return <p>Loading...</p>;
+    }
+    if (error) {
+      return <p>{error.message} </p>;
+    }
+
+    return <span>{data.getOrgByUserId.title}</span>;
+  }
+
+  function GetUserName({ id }) {
+    const { data, loading, error } = useQuery(GET_USER, {
+      variables: { userId: id },
+    });
+
+    if (loading) {
+      return <p>Loading...</p>;
+    }
+    if (error) {
+      return <p>{error.message} </p>;
+    }
+
+    if (data.getUser === null) {
+      return <span>не назначен</span>;
+    } else {
+      return data.getUser.map(({ first_name, middle_name }) => (
+        <span>
+          {first_name} {middle_name}
+          <br />
+        </span>
+      ));
+    }
+  }
+  if (data.getTaskByState) {
+    
+    return data.getTaskByState
+      .map(
+        (
+          {
+            _id,
+            implementer_id,
+            priority,
+            state_id,
+            author_id,
+            mata_tags,
+            create_date,
+            title,
+          },
+          i
+        ) => (
+          <tr key={Math.random().toString()}>
+            <th scope="row" key={Math.random().toString()}>
+              {_id}
+            </th>
+            <td className="btn" key={Math.random().toString()}>
+              <a
+                href="/infotask"
+                onClick={() => localStorage.setItem("taskId", _id)}
+              >
+                {title}
+              </a>
+            </td>
+            <td key={Math.random().toString()}>
+              {mata_tags.map((item) => `${item}, `)}
+            </td>
+            <td key={Math.random().toString()}>
+              <GetUserName id={implementer_id} />
+            </td>
+            <td key={Math.random().toString()}>
+              <GetOrgName id={author_id} />
+            </td>
+            <td key={Math.random().toString()}>
+              <GetUserName id={author_id} />
+            </td>
+            <td key={Math.random().toString()}>{create_date}</td>
+            <td key={Math.random().toString()}>{priority}</td>
+            <td key={Math.random().toString()}>{state_id}</td>
+          </tr>
+        )
+      )
+      .reverse();
+  } else {
+    return (
+      <tr>
+        <td>sdgfhjg</td>
       </tr>
-    )
-  );
+    );
+  }
 }
 
 function FilterTask() {
@@ -80,6 +140,7 @@ function FilterTask() {
   return (
     <Select
       name="colors"
+      defaultValue={allStatus[0]}
       options={allStatus}
       className="basic-multi-select"
       classNamePrefix="select"
