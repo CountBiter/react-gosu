@@ -9,6 +9,8 @@ function AddOrganisation() {
   const [orgFullName, setOrgFullName] = useState("");
   const [idfificationNumber, setIdfificationNumber] = useState("");
   const [kppNumber, setKppNumber] = useState("");
+  const [identificationNumber, setIdentificationNumber] = useState("");
+  const [identificationPass, setIdentificationPass] = useState("");
   const [okedNumber, setOkedNumber] = useState("");
   const [file, setFile] = useState();
 
@@ -80,6 +82,24 @@ function AddOrganisation() {
           onChange={(e) => setOkedNumber(e.target.value)}
         />
       </div>
+      <div className="mb-3">
+        <label className="form-label">Идентификационный номер</label>
+        <input
+          type="email"
+          className="form-control"
+          id="InputClientEmail"
+          onChange={(e) => setIdentificationNumber(e.target.value)}
+        />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Идентификационный пароль</label>
+        <input
+          type="email"
+          className="form-control"
+          id="InputClientEmail"
+          onChange={(e) => setIdentificationPass(e.target.value)}
+        />
+      </div>
       <div className="form-floating">
         <button
           className="btn btn-primary col-12 text-uppercase fs-6 fw-bolder py-2"
@@ -95,6 +115,10 @@ function AddOrganisation() {
                   idfification_number: idfificationNumber,
                   kpp: kppNumber,
                   oked: okedNumber,
+                  org_data: {
+                    identification_number: identificationNumber,
+                    org_passHash: identificationPass,
+                  },
                 },
               },
             });

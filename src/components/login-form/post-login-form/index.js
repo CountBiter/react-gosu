@@ -1,3 +1,3 @@
-import PostLoginForm from "./post-login-form";
+import { PostLoginForm, PostOrgLoginForm } from "./post-login-form";
 
-export default PostLoginForm
+export { PostLoginForm, PostOrgLoginForm };

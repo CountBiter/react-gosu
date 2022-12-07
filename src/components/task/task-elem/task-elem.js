@@ -2,18 +2,17 @@ import { useQuery } from "@apollo/client";
 import {
   GET_ALLTASKS,
   GET_ALL_STASUS,
-  GET_ALL_TASKS_WITH_STATUS,
   GET_ORG,
+  GET_STATE,
   GET_USER,
 } from "../../../apollo-client/apollo-request";
 import Select from "react-select";
-import { useState } from "react";
 
-function AllTask({ page = 0 }) {
+function AllTask({ page = 0, statusId }) {
   const { loading, error, data } = useQuery(GET_ALLTASKS, {
     variables: {
       page: page,
-      stateId: localStorage.getItem("statusId"),
+      stateId: statusId,
     },
   });
 
@@ -69,8 +68,29 @@ function AllTask({ page = 0 }) {
       ));
     }
   }
+  function GetStateName({ id }) {
+    const { data, loading, error } = useQuery(GET_STATE, {
+      variables: { stateId: id },
+    });
+
+    if (loading) {
+      return <p>Loading...</p>;
+    }
+    if (error) {
+      return <p>{error.message} </p>;
+    }
+
+    if (data.getState === null) {
+      return <span>не назначен</span>;
+    } else {
+      return (
+        <span>
+          {data.getState.title}
+        </span>
+      );
+    }
+  }
   if (data.getTaskByState) {
-    
     return data.getTaskByState
       .map(
         (
@@ -112,7 +132,9 @@ function AllTask({ page = 0 }) {
             </td>
             <td key={Math.random().toString()}>{create_date}</td>
             <td key={Math.random().toString()}>{priority}</td>
-            <td key={Math.random().toString()}>{state_id}</td>
+            <td key={Math.random().toString()}>
+              <GetStateName id={state_id} />
+            </td>
           </tr>
         )
       )
@@ -129,27 +151,14 @@ function AllTask({ page = 0 }) {
 function FilterTask() {
   const { loading, error, data } = useQuery(GET_ALL_STASUS);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error : {error.message}</div>;
+  if (loading) return <option>Loading...</option>;
+  if (error) return <option>Error : {error.message}</option>;
 
-  const allStatus = [];
-  data.getAllState.forEach((item) => {
-    allStatus.push({ label: item.title, value: item._id });
-  });
-
-  return (
-    <Select
-      name="colors"
-      defaultValue={allStatus[0]}
-      options={allStatus}
-      className="basic-multi-select"
-      classNamePrefix="select"
-      onChange={(e) => {
-        localStorage.setItem("statusId", e.value);
-      }}
-      isSearchable={true}
-    />
-  );
+  return data.getAllState.map((item) => (
+    <option key={item._id} value={item._id}>
+      {item.title}
+    </option>
+  ));
 }
 
 export { AllTask, FilterTask };

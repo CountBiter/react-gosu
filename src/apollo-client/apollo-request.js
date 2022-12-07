@@ -231,6 +231,14 @@ export const GET_ALL_STASUS = gql`
     }
   }
 `;
+export const GET_STATE = gql`
+  query GetState($stateId: String) {
+    getState(stateId: $stateId) {
+      _id
+      title
+    }
+  }
+`;
 
 export const GET_ALL_TASKS_WITH_STATUS = gql`
   query Query($statusId: String) {
@@ -312,7 +320,7 @@ export const ADD_COMMENT_TO_TASK = gql`
   }
 `;
 export const ADD_ORGANISATION = gql`
-  mutation AddOrganisation($org: inputOrganisation) {
+  mutation Mutation($org: inputOrganisation) {
     addOrganisation(org: $org) {
       _id
       title
@@ -321,6 +329,10 @@ export const ADD_ORGANISATION = gql`
       idfification_number
       kpp
       oked
+      org_data {
+        identification_number
+        org_passHash
+      }
     }
   }
 `;
