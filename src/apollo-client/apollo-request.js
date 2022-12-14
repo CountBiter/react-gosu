@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALLTASKS = gql`
-  query GetTaskByState($page: Int, $stateId: String) {
+  query Query($page: Int, $stateId: String) {
     getTaskByState(page: $page, stateId: $stateId) {
       _id
       task_type_id
@@ -13,6 +13,16 @@ export const GET_ALLTASKS = gql`
       author_id
       implementer_id
       state_id
+      state_time {
+        old_state {
+          state_id
+          date
+        }
+        now_state {
+          state_id
+          date
+        }
+      }
       priority
       mata_tags
       files {
@@ -79,6 +89,51 @@ export const GET_USER = gql`
   }
 `;
 
+export const GET_ALL_STATE = gql`
+  query Query {
+    getAllState {
+      _id
+      title
+    }
+  }
+`;
+
+export const GET_ALL_IMPLEMENTER = gql`
+  query Query {
+    getAllImplementer {
+      _id
+      first_name
+      last_name
+      middle_name
+      full_name
+      post
+      depaptament
+      organisation_id
+      login
+      hashed_password
+      telegram_chat_id
+    }
+  }
+`;
+
+export const GET_USER_BY_TOKEN = gql`
+  query Query($token: String) {
+    getUserByToken(token: $token) {
+      _id
+      first_name
+      last_name
+      middle_name
+      full_name
+      post
+      depaptament
+      organisation_id
+      login
+      hashed_password
+      telegram_chat_id
+    }
+  }
+`;
+
 export const GET_ORG = gql`
   query GetOrgByUserId($userId: String) {
     getOrgByUserId(userId: $userId) {
@@ -94,7 +149,7 @@ export const GET_ORG = gql`
 `;
 
 export const GET_ONE_TASK = gql`
-  query GetTask($taskId: String) {
+  query Query($taskId: String) {
     getTask(taskId: $taskId) {
       _id
       task_type_id
@@ -106,6 +161,16 @@ export const GET_ONE_TASK = gql`
       author_id
       implementer_id
       state_id
+      state_time {
+        old_state {
+          state_id
+          date
+        }
+        now_state {
+          state_id
+          date
+        }
+      }
       priority
       mata_tags
       files {
@@ -124,6 +189,15 @@ export const GET_STATE_TO_TASK = gql`
     getState(stateId: $stateId) {
       _id
       title
+    }
+  }
+`;
+export const GET_STATE_TIME = gql`
+  query Query($taskId: String) {
+    getStateTime(taskId: $taskId) {
+      state_id
+      date
+      duration
     }
   }
 `;
@@ -170,9 +244,26 @@ export const GET_ALL_ROLES = gql`
     }
   }
 `;
+export const GET_ALL_USER = gql`
+  query Query {
+    getAllUsers {
+      _id
+      first_name
+      last_name
+      middle_name
+      full_name
+      post
+      depaptament
+      organisation_id
+      login
+      hashed_password
+      telegram_chat_id
+    }
+  }
+`;
 
 export const GET_ALL_USER_TASKS = gql`
-  query GetAllUserTasks($token: String) {
+  query Query($token: String) {
     getAllUserTasks(token: $token) {
       _id
       task_type_id
@@ -184,6 +275,16 @@ export const GET_ALL_USER_TASKS = gql`
       author_id
       implementer_id
       state_id
+      state_time {
+        old_state {
+          state_id
+          date
+        }
+        now_state {
+          state_id
+          date
+        }
+      }
       priority
       mata_tags
       files {
@@ -198,7 +299,7 @@ export const GET_ALL_USER_TASKS = gql`
 `;
 
 export const GET_ALL_USER_IMPLEMENTER_TASKS = gql`
-  query GetAllUserImplementerTasks($token: String) {
+  query Query($token: String) {
     getAllUserImplementerTasks(token: $token) {
       _id
       task_type_id
@@ -210,6 +311,16 @@ export const GET_ALL_USER_IMPLEMENTER_TASKS = gql`
       author_id
       implementer_id
       state_id
+      state_time {
+        old_state {
+          state_id
+          date
+        }
+        now_state {
+          state_id
+          date
+        }
+      }
       priority
       mata_tags
       files {
@@ -253,6 +364,16 @@ export const GET_ALL_TASKS_WITH_STATUS = gql`
       author_id
       implementer_id
       state_id
+      state_time {
+        old_state {
+          state_id
+          date
+        }
+        now_state {
+          state_id
+          date
+        }
+      }
       priority
       mata_tags
       files {
@@ -267,8 +388,8 @@ export const GET_ALL_TASKS_WITH_STATUS = gql`
 `;
 
 export const ADD_TASK = gql`
-  mutation addTask($taskData: inputTask, $token: String) {
-    addTask(taskData: $taskData, token: $token) {
+  mutation Mutation($token: String, $taskData: inputTask) {
+    addTask(token: $token, taskData: $taskData) {
       _id
       task_type_id
       title
@@ -279,6 +400,16 @@ export const ADD_TASK = gql`
       author_id
       implementer_id
       state_id
+      state_time {
+        old_state {
+          state_id
+          date
+        }
+        now_state {
+          state_id
+          date
+        }
+      }
       priority
       mata_tags
       files {
@@ -291,23 +422,6 @@ export const ADD_TASK = gql`
     }
   }
 `;
-// In request
-// {
-//   "taskData": {
-//     "title": null,
-//     "description": null,
-//     "create_date": null,
-//     " mata_tags": [String]
-//     "files": [
-//       {
-//         "name": null,
-//         "create_date": null,
-//         "file_url": null
-//       }
-//     ]
-//   },
-//   "token": null
-// }
 
 export const ADD_COMMENT_TO_TASK = gql`
   mutation Mutation($commentsData: inputComments, $token: String) {
@@ -336,24 +450,9 @@ export const ADD_ORGANISATION = gql`
     }
   }
 `;
-// In request
-// {
-//   "org": {
-//     "title": null,
-//     "icon": null,
-//     "full_name": null,
-//     "idfification_number": null,
-//     "kpp": null,
-//     "oked": null
-//   }
-// }
 
 export const ADD_FILE_TO_TASK = gql`
-  mutation AddFileToTask(
-    $taskId: String
-    $fileData: inputTaskFile
-    $token: String
-  ) {
+  mutation Mutation($taskId: String, $fileData: inputTaskFile, $token: String) {
     addFileToTask(taskId: $taskId, fileData: $fileData, token: $token) {
       _id
       task_type_id
@@ -365,6 +464,16 @@ export const ADD_FILE_TO_TASK = gql`
       author_id
       implementer_id
       state_id
+      state_time {
+        old_state {
+          state_id
+          date
+        }
+        now_state {
+          state_id
+          date
+        }
+      }
       priority
       mata_tags
       files {
@@ -377,16 +486,44 @@ export const ADD_FILE_TO_TASK = gql`
     }
   }
 `;
-// In request
-// {
-//   "taskId": null,
-//   "fileData": {
-//     "name": null,
-//     "file_url": null,
-//     "create_date": null
-//   },
-//   "token": null
-// }
+
+export const ADD_IMPLEM_TO_TASK = gql`
+mutation Mutation($implemId: [String], $taskId: String) {
+  addImplemToTask(implemId: $implemId, taskId: $taskId) {
+    _id
+    task_type_id
+    title
+    description
+    create_date
+    acceptence_date
+    finished_date
+    author_id
+    implementer_id
+    state_id
+    state_time {
+      old_state {
+        state_id
+        date
+        duration
+      }
+      now_state {
+        state_id
+        date
+        duration
+      }
+    }
+    priority
+    mata_tags
+    files {
+      _id
+      name
+      author_id
+      create_date
+      file_url
+    }
+  }
+}
+`;
 
 export const ADD_ROLE = gql`
   mutation AddRoles($roles: inputRoles, $rolesTasks: inputRoleTaskPermmission) {
@@ -464,9 +601,56 @@ export const UPDATE_USER = gql`
   }
 `;
 
+export const UPDATE_STATE_TO_TASK = gql`
+  mutation Mutation($stateId: String, $taskId: String, $duration: String) {
+    updateStateToTask(stateId: $stateId, taskId: $taskId, duration: $duration) {
+      _id
+      task_type_id
+      title
+      description
+      create_date
+      acceptence_date
+      finished_date
+      author_id
+      implementer_id
+      state_id
+      state_time {
+        old_state {
+          state_id
+          date
+          duration
+        }
+        now_state {
+          state_id
+          date
+          duration
+        }
+      }
+      priority
+      mata_tags
+      files {
+        _id
+        name
+        author_id
+        create_date
+        file_url
+      }
+    }
+  }
+`;
+
 export const ADD_USER_ROLE = gql`
   mutation Mutation($roleId: String, $userId: String) {
     addUserRoles(roleId: $roleId, userId: $userId) {
+      _id
+      user_id
+      role_id
+    }
+  }
+`;
+export const UPDATE_USER_ROLE = gql`
+  mutation Mutation($userId: String, $roleId: String) {
+    updateUserRoles(userId: $userId, roleId: $roleId) {
       _id
       user_id
       role_id
@@ -539,6 +723,16 @@ export const ADD_STATE_TO_TASK = gql`
       author_id
       implementer_id
       state_id
+      state_time {
+        old_state {
+          state_id
+          date
+        }
+        now_state {
+          state_id
+          date
+        }
+      }
       priority
       mata_tags
       files {

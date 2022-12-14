@@ -11,11 +11,29 @@ import { imageLogo } from "../../../image/img";
 
 function NewUser() {
   const [addUsers, { loading, error }] = useMutation(ADD_USER_FOR_ADMIN);
-  const [userName, setUserName] = useState("");
-  const [userMiddleName, setUserMiddleName] = useState("");
-  const [userLastName, setUserLastName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [userPassword, setUserPassword] = useState("");
+  // const [userName, setUserName] = useState("");
+  // const [userMiddleName, setUserMiddleName] = useState("");
+  // const [userLastName, setUserLastName] = useState("");
+  // const [userEmail, setUserEmail] = useState("");
+  // const [userPassword, setUserPassword] = useState("");
+  const profile = {
+    userName: "",
+    userMiddleName: "",
+    userLastName: "",
+    userEmail: "",
+    userPassword: "",
+  };
+
+  const profileKeys = Object.keys(profile);
+
+  const updateElementValue = (e) => {
+    for (let key of profileKeys) {
+      if (key === e.target.name) {
+        profile[key]= e.target.value
+      }
+    }
+    console.log(profile)
+  };
 
   if (loading) return <option>Loading...</option>;
   if (error) return <option>Error : {error.message}</option>;
@@ -27,8 +45,9 @@ function NewUser() {
         <input
           type="text"
           className="form-control"
+          name="userMiddleName"
           id="InputClientName"
-          onChange={(e) => setUserMiddleName(e.target.value)}
+          onChange={updateElementValue}
         />
       </div>
       <div className="mb-3">
@@ -36,8 +55,9 @@ function NewUser() {
         <input
           type="text"
           className="form-control"
+          name="userName"
           id="InputClientName"
-          onChange={(e) => setUserName(e.target.value)}
+          onChange={updateElementValue}
         />
       </div>
       <div className="mb-3">
@@ -45,8 +65,9 @@ function NewUser() {
         <input
           type="text"
           className="form-control"
+          name="userLastName"
           id="InputClientName"
-          onChange={(e) => setUserLastName(e.target.value)}
+          onChange={updateElementValue}
         />
       </div>
       <div className="mb-3">
@@ -54,8 +75,9 @@ function NewUser() {
         <input
           type="email"
           className="form-control"
+          name="userEmail"
           id="InputClientEmail"
-          onChange={(e) => setUserEmail(e.target.value)}
+          onChange={updateElementValue}
         />
       </div>
       <div className="mb-3">
@@ -63,8 +85,9 @@ function NewUser() {
         <input
           type="text"
           className="form-control"
+          name="userPassword"
           id="InputClientEmail"
-          onChange={(e) => setUserPassword(e.target.value)}
+          onChange={updateElementValue}
         />
       </div>
 
@@ -76,20 +99,20 @@ function NewUser() {
             await addUsers({
               variables: {
                 user: {
-                  first_name: userName,
-                  last_name: userLastName,
-                  middle_name: userMiddleName,
-                  full_name: `${userName} ${userMiddleName} ${userLastName}`,
+                  first_name: profile.userName,
+                  last_name: profile.userLastName,
+                  middle_name: profile.userMiddleName,
+                  full_name: `${profile.userName} ${profile.userMiddleName} ${profile.userLastName}`,
                   post: null,
                   depaptament: null,
                   organisation_id: localStorage.getItem("ok"),
-                  login: userEmail,
-                  hashed_password: userPassword,
+                  login: profile.userEmail,
+                  hashed_password: profile.userPassword,
                   telegram_chat_id: null,
                 },
               },
             });
-            document.location = "/homepage";
+          document.location = "/homepage";
           }}
         >
           ДОБАВИТЬ

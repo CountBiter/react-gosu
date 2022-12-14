@@ -76,7 +76,7 @@ function AddTaskForOther() {
           className="btn btn-primary col-12 text-uppercase fs-6 fw-bolder py-2"
           onClick={async (e) => {
             e.preventDefault();
-            const fileData = await UploadFile(e.target.files[0]);
+            const fileData = await UploadFile(file);
             addTask({
               variables: {
                 taskData: {
@@ -96,6 +96,7 @@ function AddTaskForOther() {
                 token: userToken.token,
               },
             });
+            document.location = "/task"
           }}
         >
           СОЗДАТЬ ЗАЯВКУ

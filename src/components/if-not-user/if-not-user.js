@@ -1,4 +1,7 @@
-import { GET_USERROLE } from "../../apollo-client/apollo-request";
+import {
+  GET_USERROLE,
+  GET_USER_BY_TOKEN,
+} from "../../apollo-client/apollo-request";
 import { useQuery } from "@apollo/client";
 
 import AddClientForm from "../add-client/add-client-elem";
@@ -93,10 +96,22 @@ function ForHomePage() {
               <h4 className="text4">Добавить роль:</h4>
             </a>
           </div>
+          <div className="btn bg-primary bg-opacity-50 col-4 col-md-3 py-4 px-3">
+            <a href="/changerole">
+              <img className="col-3 mb-3" src={image6} alt="" />
+              <h4 className="text4">Изменить роль:</h4>
+            </a>
+          </div>
           <div className="btn bg-primary bg-opacity-50 col-4 col-md-3 py-4 px-3 d-none d-md-block">
             <a href="/task">
               <img className="col-3 mb-3" src={image4} alt="" />
               <h4 className="text4">Все заявки</h4>
+            </a>
+          </div>
+          <div className="btn bg-primary bg-opacity-50 col-4 col-md-3 py-4 px-3 d-none d-md-block">
+            <a href="/taskcompletion">
+              <img className="col-3 mb-3" src={image4} alt="" />
+              <h4 className="text4">Все выполненные заявки</h4>
             </a>
           </div>
         </div>
@@ -148,54 +163,54 @@ function ForTaskPage() {
   return "Ok";
 }
 
-function ForIntoTaskPage() {
-  const userToken = JSON.parse(localStorage.getItem("token"));
+// function ForIntoTaskPage() {
+//   const userToken = JSON.parse(localStorage.getItem("token"));
 
-  const { loading, error, data } = useQuery(GET_USERROLE, {
-    variables: {
-      token: userToken.token,
-    },
-  });
+//   const { loading, error, data } = useQuery(GET_USERROLE, {
+//     variables: {
+//       token: userToken.token,
+//     },
+//   });
 
-  if (loading) {
-    return <div>Loading..</div>;
-  }
-  if (error) {
-    return <div>error</div>;
-  }
+//   if (loading) {
+//     return <div>Loading..</div>;
+//   }
+//   if (error) {
+//     return <div>error</div>;
+//   }
 
-  const { permmission } = data.getRole;
+//   const { permmission } = data.getRole;
 
-  if (permmission.files && permmission.title && permmission.description) {
-    return null;
-  } else if (
-    (permmission.implementer && permmission.state && permmission.priority) ||
-    permmission.admin
-  ) {
-    return (
-      <div className="card card-time bg-primary text-light mt-4">
-        <div className="card-body pb-0">
-          <div className="card-title">Время с момента подачи заявки:</div>
-          <h4>
-            <input
-              className="form-control bg-transparent"
-              type="time"
-              value={"15:12"}
-            />
-          </h4>
-        </div>
-        <div className="card-body">
-          <div className="card-title">Время с момента принятия заявки:</div>
-          <h4>
-            <input className="form-control bg-transparent" type="time" />
-          </h4>
-        </div>
-      </div>
-    );
-  }
+//   if (permmission.files && permmission.title && permmission.description) {
+//     return null;
+//   } else if (
+//     (permmission.implementer && permmission.state && permmission.priority) ||
+//     permmission.admin
+//   ) {
+//     return (
+//       <div className="card card-time bg-primary text-light mt-4">
+//         <div className="card-body pb-0">
+//           <div className="card-title">Время с момента подачи заявки:</div>
+//           <h4>
+//             <input
+//               className="form-control bg-transparent"
+//               type="time"
+//               value={"15:12"}
+//             />
+//           </h4>
+//         </div>
+//         <div className="card-body">
+//           <div className="card-title">Время с момента принятия заявки:</div>
+//           <h4>
+//             <input className="form-control bg-transparent" type="time" />
+//           </h4>
+//         </div>
+//       </div>
+//     );
+//   }
 
-  return "Ok";
-}
+//   return "Ok";
+// }
 
 function ForProfile() {
   const userToken = JSON.parse(localStorage.getItem("token"));
@@ -308,12 +323,8 @@ function ForAdminAddOrg() {
     },
   });
 
-  if (loading) {
-    return <div>Loading..</div>;
-  }
-  if (error) {
-    return <div>error</div>;
-  }
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error : {error.message}</p>;
   const { permmission } = data.getRole;
 
   if (permmission.files && permmission.title && permmission.description) {
@@ -434,10 +445,15 @@ function ForAdminAddRole() {
   }
 }
 
-function ForInfoTask() {
+function ForInfoTask({ userId }) {
   const userToken = JSON.parse(localStorage.getItem("token"));
 
   const { loading, error, data } = useQuery(GET_USERROLE, {
+    variables: {
+      token: userToken.token,
+    },
+  });
+  const userRole = useQuery(GET_USER_BY_TOKEN, {
     variables: {
       token: userToken.token,
     },
@@ -449,10 +465,20 @@ function ForInfoTask() {
   if (error) {
     return <div>error</div>;
   }
+  if (userRole.loading) {
+    return <div>Loading..</div>;
+  }
+  if (userRole.error) {
+    return <div>error</div>;
+  }
   const { permmission } = data.getRole;
 
-  if (permmission.files && permmission.title && permmission.description) {
-    console.log("OKOKOK");
+  if (
+    permmission.files &&
+    permmission.title &&
+    permmission.description &&
+    userId === userRole.data.getUserByToken._id
+  ) {
     return (
       <div className="mt-4 d-md row mb-4">
         <button
@@ -482,7 +508,6 @@ function ForInfoTask() {
 export {
   ForHomePage,
   ForTaskPage,
-  ForIntoTaskPage,
   ForProfile,
   ForAdminAddClient,
   ForAdminAddOrg,

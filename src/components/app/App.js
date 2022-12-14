@@ -13,6 +13,8 @@ import InfoTask from "../task/info-task";
 import Profile from "../profile/profile";
 import Role from "../add-role";
 import "./App.css";
+import ChangeRole from "../change-user-role/change-user-role";
+import TaskCompletion from "../task-completion";
 
 export default class App extends Component {
   render() {
@@ -26,9 +28,11 @@ export default class App extends Component {
           <Route path="/question" element={<Question />} />
           <Route path="/other" element={<Other />} />
           <Route path="/task" element={<Task />} />
+          <Route path="/taskcompletion" element={<TaskCompletion />} />
           <Route path="/addclient" element={<AddClient />} /> 
           <Route path="/addorganisation" element={<Organisation />} />
           <Route path="/addrole" element={<Role />} />
+          <Route path="/changerole" element={<ChangeRole />} />
           <Route path="/infotask" element={<InfoTask />} />
         </Routes>
       </>

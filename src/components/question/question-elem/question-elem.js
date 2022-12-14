@@ -74,6 +74,7 @@ function AddTaskForQuestion() {
             type="file"
             hidden="hidden"
             onChange={(e) => {
+              console.log(e.target.files);
               setFile(e.target.files[0]);
             }}
           />
@@ -91,7 +92,7 @@ function AddTaskForQuestion() {
         className="btn btn-primary col-12 text-uppercase fs-6 fw-bolder py-2"
         onClick={async (e) => {
           e.preventDefault();
-          const fileData = await UploadFile(e.target.files[0]) 
+          const fileData = await UploadFile(file);
           addTask({
             variables: {
               taskData: {
@@ -111,6 +112,7 @@ function AddTaskForQuestion() {
               token: userToken.token,
             },
           });
+          document.location = "/task"
         }}
       >
         СОЗДАТЬ ЗАЯВКУ

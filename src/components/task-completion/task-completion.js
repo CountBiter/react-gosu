@@ -1,31 +1,18 @@
 import React, { Component } from "react";
-
-import { ForTaskPage } from "../if-not-user";
-import { AllTask } from "./task-elem";
-import { FilterTask } from "./task-elem";
-
 import Header from "../header";
+import {
+  MoreState,
+  AllTaskCompletion,
+  DownloadExcel,
+} from "./task-completion-elem";
 
-export default class Task extends Component {
+export default class TaskCompletion extends Component {
   constructor(props) {
     super(props);
     this.state = {
       page: 0,
-      stateId: "",
     };
-    this.onChangeFilter = this.onChangeFilter.bind(this);
   }
-  onChangeFilter() {
-    if (this.state.stateId === localStorage.getItem("statusId")) {
-      return <AllTask page={this.state.page} statusId={this.state.stateId} />;
-    } else {
-      this.setState({
-        stateId: localStorage.getItem("statusId"),
-      });
-      return <AllTask page={this.state.page} statusId={this.state.stateId} />;
-    }
-  }
-
   render() {
     return (
       <>
@@ -40,24 +27,9 @@ export default class Task extends Component {
             </div>
           </div>
           <div className="py-5"></div>
-          <div className="mb-3">
-            <select
-              className="form-select mb-3"
-              id="exampleFormControlSelect"
-              defaultValue={(e) => e.target.value}
-              onChange={(e) => {
-                console.log(e.target.value)
-                this.setState({
-                  stateId: e.target.value
-                })
-              }}
-            >
-              <FilterTask />
-            </select>
-          </div>
           <div className=" container-fluid d-flex flex-column align-items-center justify-content-center">
+            <DownloadExcel page={this.state.page} state={"Выполнен"} />
             <div className="col-11">
-              <ForTaskPage />
               <div className="card">
                 <table className="table bg-light text-start">
                   <thead className="fw-bolder text-light">
@@ -70,11 +42,14 @@ export default class Task extends Component {
                       <th scope="col">Заказчик</th>
                       <th scope="col">Дата подачи заявки</th>
                       <th scope="col">Приоритет</th>
-                      <th scope="col">Статус</th>
+                      <MoreState />
                     </tr>
                   </thead>
                   <tbody>
-                    <AllTask page={this.state.page} statusId={this.state.stateId} />
+                    <AllTaskCompletion
+                      page={this.state.page}
+                      state={"Выполнен"}
+                    />
                   </tbody>
                 </table>
               </div>

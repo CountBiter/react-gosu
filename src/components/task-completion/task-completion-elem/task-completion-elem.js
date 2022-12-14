@@ -1,18 +1,87 @@
 import { useQuery } from "@apollo/client";
+import { useEffect, useState } from "react";
 import {
   GET_ALLTASKS,
-  GET_ALL_STASUS,
+  GET_ALL_STATE,
   GET_ORG,
   GET_STATE,
   GET_USER,
 } from "../../../apollo-client/apollo-request";
-import  { formatDate } from "../../format-date/";
+import formatDuration, { formatDate } from "../../format-date/formate-date";
 
-function AllTask({ page = 0, statusId }) {
+function MoreState() {
+  const { data, loading, error } = useQuery(GET_ALL_STATE);
+
+  if (loading) {
+    return <option>Loading...</option>;
+  }
+  if (error) {
+    console.log(error.message);
+    return <option>{error.message} </option>;
+  }
+  return data.getAllState.map((item) => (
+    <th scope="col" value={item._id} key={item._id}>
+      {item.title}
+    </th>
+  ));
+}
+
+function DownloadExcel({ page, state }) {
   const { loading, error, data } = useQuery(GET_ALLTASKS, {
     variables: {
       page: page,
-      stateId: statusId,
+      stateId: state,
+    },
+  });
+  const [asd, setasd] = useState("");
+  let excel;
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    console.log("asdasd");
+  });
+
+  if (loading)
+    return (
+      <tr>
+        <td>Loading...</td>
+      </tr>
+    );
+  if (error)
+    return (
+      <tr>
+        <td>Error : {error.message}</td>
+      </tr>
+    );
+
+  return (
+    <button
+      onClick={async () => {
+        const a = await fetch("http://localhost:5000/dowload", {
+          method: "POST",
+          body: JSON.stringify(data.getTaskByState),
+          headers: {
+            access: "application.json",
+            "Content-Type": "application/json",
+          },
+        })
+          .then((r) => r.json())
+          .then((data) => data);
+        console.log(a);
+        setasd(a);
+      }}
+    >
+      <a href={asd.url}>dasdsadsa</a>
+    </button>
+  );
+}
+
+function AllTaskCompletion({ page = 0, state }) {
+  const { loading, error, data } = useQuery(GET_ALLTASKS, {
+    variables: {
+      page: page,
+      stateId: state,
     },
   });
 
@@ -83,15 +152,11 @@ function AllTask({ page = 0, statusId }) {
     if (data.getState === null) {
       return <span>не назначен</span>;
     } else {
-      return (
-        <span>
-          {data.getState.title}
-        </span>
-      );
+      return <span>{data.getState.title}</span>;
     }
   }
   if (data.getTaskByState) {
-    console.log(data.getTaskByState)
+    console.log(data.getTaskByState);
     return data.getTaskByState
       .map(
         (
@@ -149,17 +214,4 @@ function AllTask({ page = 0, statusId }) {
   }
 }
 
-function FilterTask() {
-  const { loading, error, data } = useQuery(GET_ALL_STASUS);
-
-  if (loading) return <option>Loading...</option>;
-  if (error) return <option>Error : {error.message}</option>;
-
-  return data.getAllState.map((item) => (
-    <option key={item._id} value={item._id}>
-      {item.title}
-    </option>
-  ));
-}
-
-export { AllTask, FilterTask };
+export { AllTaskCompletion, MoreState, DownloadExcel };

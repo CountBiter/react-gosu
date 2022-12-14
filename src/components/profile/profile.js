@@ -11,7 +11,16 @@ export default class Profile extends Component {
         <div id="height"></div>
         <div className="container-fluid position-absolute d-flex align-items-center my-2">
           <Header />
-          <div className="col-1 text-start"><a href="/"><i className="bi bi-door-open-fill text-primary display-6"></i></a></div>
+          <div className="col-1 text-start">
+            <a
+              href="/"
+            onClick={() => {
+                localStorage.clear();
+              }}
+            >
+              <i className="bi bi-door-open-fill text-primary display-6"></i>
+            </a>
+          </div>
         </div>
 
         <div className="py-5"></div>

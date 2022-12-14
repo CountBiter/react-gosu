@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { imageLogo } from "../../image/img";
 import LoginTabs from "./lofin-form-elem";
 
-import { PostOrgLoginForm, PostLoginForm } from "./post-login-form";
+import { PostOrgLoginForm } from "./post-login-form";
 
 export default class LoginForm extends Component {
   async orgFormSubmit(e) {

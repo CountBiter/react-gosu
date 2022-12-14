@@ -99,6 +99,7 @@ function AddTaskForHardSetitng() {
                 token: userToken.token,
               },
             });
+            document.location = "/task"
           }}
         >
           Создать заявку
