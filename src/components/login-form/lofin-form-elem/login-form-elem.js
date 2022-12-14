@@ -180,29 +180,36 @@ function LoginTabs() {
   };
 
   return (
-  <div className="d-flex flex-column align-items-center mt-5">
-    <img className="col-2 col-xxl-1" src={imageLogo} alt="GosuLogo" />
+  <div className="d-flex flex-column align-items-center">
+    <div className="position-absolute end-0 pt-4 pe-5">
+      <select class="form-select bg-transparent border-primary">
+        <option selected>ru</option>
+        <option value="1">kaz</option>
+        <option value="2">en</option>
+      </select>
+    </div>
+    <img className="col-2 col-xxl-1 mt-5" src={imageLogo} alt="GosuLogo" />
     <div className="card col-lg-4 col-xxl-4 bg-primary bg-opacity-50 mt-4">
-      <div className="card-header d-flex justify-content-evenly">
-        <Box className="container-fluid d-flex flex-column align-items-center">
-          <TabContext value={value}>
-            <Box>
-              <TabList onChange={handleChange} aria-label="lab API tabs example">
-                <Tab label="Войти" value="1" />
-                <Tab label="Зарегистрироваться" value="2" />
-              </TabList>
-            </Box>
-            <TabPanel value="1" className="container-fluid">
-              {" "}
-              <Login />{" "}
-            </TabPanel>
-            <TabPanel value="2" className="container-fluid">
-              {" "}
-              <NewUser />{" "}
-            </TabPanel>
-          </TabContext>
-        </Box>
-      </div>
+      <Box>
+        <TabContext value={value}>
+          <Box className="card-header d-flex justify-content-evenly position-relative">
+            <TabList onChange={handleChange} aria-label="lab API tabs example">
+              <Tab label="Войти" value="1" />
+              <Tab label="Зарегистрироваться" value="2" />
+              
+            </TabList>
+            
+          </Box>
+          <TabPanel value="1">
+            {" "}
+            <Login />{" "}
+          </TabPanel>
+          <TabPanel value="2">
+            {" "}
+            <NewUser />{" "}
+          </TabPanel>
+        </TabContext>
+      </Box>
     </div>
   </div>
     
