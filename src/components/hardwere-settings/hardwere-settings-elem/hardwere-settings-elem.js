@@ -16,7 +16,7 @@ function AddTaskForHardSetitng() {
   if (error) return <p>Error : {error.message}</p>;
 
   return (
-    <form className="p-5 text-start">
+    <form className="py-5 px-4 text-start">
       <div className="mb-3">
         <label className="form-label">
           Укажите название магазина или торговой точки:
@@ -39,9 +39,11 @@ function AddTaskForHardSetitng() {
           <option selected disabled>
             {" "}
           </option>
-          <option>Обычный</option>
+          <option>Низкий</option>
+          <option>Средний</option>
           <option>Высокий</option>
           <option>Критический</option>
+          <option>Блокирующий</option>
         </select>
       </div>
       <div className="mb-3">

@@ -40,32 +40,40 @@ function ForHomePage() {
   if (permmission.files && permmission.title && permmission.description) {
     return (
       <div>
-        <div className="col-lg-11 d-flex justify-content-evenly mt-5 pb-5">
-          <div className="btn bg-primary bg-opacity-50 col-5 col-md-4 col-lg-3 py-4 px-3">
+        <div className="d-flex justify-content-evenly mt-5 pb-5">
+          <div className="btn bg-primary bg-opacity-50 col-3 py-4">
             <a href="/settings">
-              <img className="col-3 mb-3" src={image1} alt="image1" />
-              <h4 className="text4">Настройка оборудования</h4>
+              <div>
+                <img className="col-3 mb-3" src={image1} alt="image1" />
+                <h4 className="text4">Настройка оборудования</h4>
+              </div>
             </a>
           </div>
 
-          <div className="btn bg-primary bg-opacity-50 col-5 col-md-4 col-lg-3 py-4 px-3">
+          <div className="btn bg-primary bg-opacity-50 col-3 py-4">
             <a href="/question">
-              <img className="col-3 mb-3" src={image2} alt="" />
-              <h4 className="text4">Вопрос по 1С</h4>
+              <div>
+                <img className="col-3 mb-3" src={image2} alt="" />
+                <h4 className="text4">Вопрос по 1С</h4>
+              </div>
             </a>
           </div>
         </div>
-        <div className="col-lg-11 d-flex justify-content-evenly mb-5 pb-5">
-          <div className="btn bg-primary bg-opacity-50 col-5 col-md-4 col-lg-3 py-4 px-3">
+        <div className="d-flex justify-content-evenly mb-5 pb-5">
+          <div className="btn bg-primary bg-opacity-50 col-3 py-4">
             <a href="/other">
-              <img className="col-3 mb-3" src={image3} alt="" />
-              <h4 className="text4">Другое</h4>
+              <div>
+                <img className="col-3 mb-3" src={image3} alt="" />
+                <h4 className="text4">Другое</h4>
+              </div>
             </a>
           </div>
-          <div className="btn bg-primary bg-opacity-50 col-5 col-md-4 col-lg-3 py-4 px-3">
+          <div className="btn bg-primary bg-opacity-50 col-3 py-4">
             <a href="/task">
-              <img className="col-3 mb-3" src={image4} alt="" />
-              <h4 className="text4">Все заявки</h4>
+              <div>
+                <img className="col-3 mb-3" src={image4} alt="" />
+                <h4 className="text4">Все заявки</h4>
+              </div>
             </a>
           </div>
         </div>

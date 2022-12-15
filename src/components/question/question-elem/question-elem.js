@@ -15,7 +15,7 @@ function AddTaskForQuestion() {
   if (error) return <p>Error : {error.message}</p>;
 
   return (
-    <form className="p-5 text-start">
+    <form className="pt-5 pb-4 px-4 text-start">
       <div className="mb-3">
         <label className="form-label">
           Выберите из списка примерный вариант вопроса:
@@ -87,36 +87,37 @@ function AddTaskForQuestion() {
           </h5>
         </label>
       </div>
-      <div className="form-floating"></div>
-      <button
-        className="btn btn-primary col-12 text-uppercase fs-6 fw-bolder py-2"
-        onClick={async (e) => {
-          e.preventDefault();
-          const fileData = await UploadFile(file);
-          addTask({
-            variables: {
-              taskData: {
-                title: "Вопрос по 1С",
-                description: text,
-                create_date: `${Date.now()}`,
-                priority: priority,
-                mata_tags: [question],
-                files: [
-                  {
-                    name: fileData.file_name,
-                    create_date: `${Date.now()}`,
-                    file_url: fileData.file_url,
-                  },
-                ],
+      <div className="form-floating">
+        <button
+          className="btn btn-primary col-12 text-uppercase fs-6 fw-bolder py-2"
+          onClick={async (e) => {
+            e.preventDefault();
+            const fileData = await UploadFile(file);
+            addTask({
+              variables: {
+                taskData: {
+                  title: "Вопрос по 1С",
+                  description: text,
+                  create_date: `${Date.now()}`,
+                  priority: priority,
+                  mata_tags: [question],
+                  files: [
+                    {
+                      name: fileData.file_name,
+                      create_date: `${Date.now()}`,
+                      file_url: fileData.file_url,
+                    },
+                  ],
+                },
+                token: userToken.token,
               },
-              token: userToken.token,
-            },
-          });
-          document.location = "/task"
-        }}
-      >
-        СОЗДАТЬ ЗАЯВКУ
-      </button>
+            });
+            document.location = "/task"
+          }}
+        >
+          СОЗДАТЬ ЗАЯВКУ
+        </button>
+      </div>
     </form>
   );
 }

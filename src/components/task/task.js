@@ -30,33 +30,43 @@ export default class Task extends Component {
     return (
       <>
         <div>
-          <div id="height"></div>
-          <div className="container-fluid position-absolute d-flex align-items-center my-2">
-            <Header />
-            <div className="col-1 text-start">
-              <a href="/profile">
-                <i className="bi bi-person-fill text-primary display-6"></i>
-              </a>
+          {/* <div id="height"></div> */}
+          <div className="d-flex justify-content-center pt-2 bg-light">
+            <div className="col-11 d-flex align-items-center">
+              <Header />
+              <div className="col-1 text-center">
+                <a href="/profile">
+                  <i className="bi bi-person-fill text-primary display-6"></i>
+                </a>
+              </div>
+              <div className="col-1">
+                <select class="form-select bg-transparent border-primary py-2">
+                  <option selected>ru</option>
+                  <option value="1">kaz</option>
+                  <option value="2">en</option>
+                </select>
+              </div>
             </div>
           </div>
-          <div className="py-5"></div>
-          <div className="mb-3">
-            <select
-              className="form-select mb-3"
-              id="exampleFormControlSelect"
-              defaultValue={(e) => e.target.value}
-              onChange={(e) => {
-                console.log(e.target.value)
-                this.setState({
-                  stateId: e.target.value
-                })
-              }}
-            >
-              <FilterTask />
-            </select>
-          </div>
-          <div className=" container-fluid d-flex flex-column align-items-center justify-content-center">
+
+          <div className="py-4"></div>
+          <div className="d-flex flex-column align-items-center">
             <div className="col-11">
+              <div className="mb-3">
+                <select
+                  className="form-select mb-3"
+                  id="exampleFormControlSelect"
+                  defaultValue={(e) => e.target.value}
+                  onChange={(e) => {
+                    console.log(e.target.value)
+                    this.setState({
+                      stateId: e.target.value
+                    })
+                  }}
+                >
+                  <FilterTask />
+                </select>
+              </div>
               <ForTaskPage />
               <div className="card">
                 <table className="table bg-light text-start">

@@ -342,20 +342,23 @@ function Task() {
   return (
     <>
       {" "}
-      <div className="container-fluid d-flex flex-column align-items-center">
-        <div className="col-11 text-start">
-          <div className="text-light mx-4 mb-4 mt-4">
+      <div className="d-flex justify-content-center">
+        <div className="col-11 pt-5">
+          <div className="mx-3 mb-4">
             <div className="">
               <h2>{getTask.title}</h2>
             </div>
           </div>
-          <div className="row m-0">
-            <div className="col-md-8">
-              <div className="card bg-light mb-5">
-                <div className="card-body pb-0">
-                  <h6 className="card-title border-bottom pb-2 text4">
-                    Задача {getTask._id}
-                  </h6>
+          <div className="row p-0">
+
+            <div className="col-md-8 pe-5">
+              <div className="card bg-primary bg-opacity-25 m-0 mb-5">
+                <div className="card-body border-bottom bg-primary rounded-top">
+                  <h4 className="text-light text4">
+                    Задача id: {getTask._id}
+                  </h4>
+                </div>
+                <div className="card-body">
                   <div
                     className="form-control"
                     id="exampleFormControlTextarea1"

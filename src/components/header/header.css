@@ -1,24 +1,21 @@
 .form-control,
 .input-group-text {
-    border: 1px solid #ffffff;
+    border: 1px solid #65B2F0;
 }
 
-::-webkit-input-placeholder {
-    /* WebKit browsers */
-    color: rgb(255, 255, 255);
-}
-
-:-moz-placeholder {
-    /* Mozilla Firefox 4 to 18 */
-    color: rgb(255, 255, 255);
-}
-
-::-moz-placeholder {
-    /* Mozilla Firefox 19+ */
-    color: rgb(255, 255, 255);
-}
-
-:-ms-input-placeholder {
-    /* Internet Explorer 10+ */
-    color: rgb(255, 255, 255);
+.btn-outline-primary {
+    --bs-btn-color: #65b2f0;
+    --bs-btn-border-color: #65b2f0;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #65b2f0;
+    --bs-btn-hover-border-color: #65b2f0;
+    --bs-btn-focus-shadow-rgb: 13,110,253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #65b2f0;
+    --bs-btn-active-border-color: #65b2f0;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #65b2f0;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #65b2f0;
+    --bs-gradient: none;
 }

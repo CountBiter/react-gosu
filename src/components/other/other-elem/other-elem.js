@@ -16,7 +16,7 @@ function AddTaskForOther() {
   if (error) return <p>Error : {error.message}</p>;
 
   return (
-    <form className="p-5 text-start">
+    <form className="pt-5 pb-4 px-4 text-start">
       <div className="mb-3">
         <label className="form-label">
           Укажите название магазина или торговой точки:
