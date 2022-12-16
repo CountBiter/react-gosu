@@ -37,7 +37,10 @@ function ForHomePage() {
 
   const { permmission } = data.getRole;
 
-  if (permmission.files && permmission.title && permmission.description) {
+  if (
+    (permmission.files && permmission.title && permmission.description) ||
+    (permmission.implementer && permmission.state && permmission.priority)
+  ) {
     return (
       <div>
         <div className="d-flex justify-content-evenly mt-5 pb-5">
@@ -150,10 +153,7 @@ function ForTaskPage() {
 
   if (permmission.files && permmission.title && permmission.description) {
     return null;
-  } else if (
-    (permmission.implementer && permmission.state && permmission.priority) ||
-    permmission.admin
-  ) {
+  } else if (permmission.admin) {
     return (
       <div className="mb-3 d-flex">
         <div className="col-6 col-md-4 bg-light rounded d-flex align-items-center px-2 py-2 me-md-5 me-2">

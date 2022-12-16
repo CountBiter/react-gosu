@@ -10,7 +10,69 @@ import {
   GET_ALL_USER_TASKS,
   GET_ALL_USER_IMPLEMENTER_TASKS,
   GET_USER,
+  GET_STATE,
+  GET_ORG,
 } from "../../../apollo-client/apollo-request";
+import { formatDate } from "../../format-date";
+
+ function GetOrgName({ id }) {
+      const { data, loading, error } = useQuery(GET_ORG, {
+        variables: {
+          userId: id,
+        },
+      });
+
+      if (loading) {
+        return <p>Loading...</p>;
+      }
+      if (error) {
+        return <p>{error.message} </p>;
+      }
+
+      return <span>{data.getOrgByUserId.title}</span>;
+    }
+
+    function GetUserName({ id }) {
+      const { data, loading, error } = useQuery(GET_USER, {
+        variables: { userId: id },
+      });
+
+      if (loading) {
+        return <p>Loading...</p>;
+      }
+      if (error) {
+        return <p>{error.message} </p>;
+      }
+
+      if (data.getUser.length === 0) {
+        return <span>не назначен</span>;
+      } else {
+        return data.getUser.map(({ first_name, middle_name }) => (
+          <span>
+            {first_name} {middle_name}
+            <br />
+          </span>
+        ));
+      }
+    }
+    function GetStateName({ id }) {
+      const { data, loading, error } = useQuery(GET_STATE, {
+        variables: { stateId: id },
+      });
+
+      if (loading) {
+        return <p>Loading...</p>;
+      }
+      if (error) {
+        return <p>{error.message} </p>;
+      }
+
+      if (data.getState === null) {
+        return <span>не назначен</span>;
+      } else {
+        return <span>{data.getState.title}</span>;
+      }
+    }
 
 function UserTask() {
   const userToken = JSON.parse(localStorage.getItem("token"));
@@ -43,8 +105,8 @@ function UserTask() {
       } else {
         return data.getUser.map(({ first_name, middle_name }) => (
           <span>
-            {first_name} {" "}
-            {middle_name}{", "}
+            {first_name} {middle_name}
+            {", "}
           </span>
         ));
       }
@@ -58,6 +120,7 @@ function UserTask() {
           priority,
           state_id,
           mata_tags,
+          author_id,
           create_date,
           title,
         },
@@ -81,9 +144,17 @@ function UserTask() {
           <td key={Math.random().toString()}>
             <GetUserName id={implementer_id} />
           </td>
-          <td key={Math.random().toString()}>{create_date}</td>
+          <td key={Math.random().toString()}>
+            <GetOrgName id={author_id} />
+          </td>
+          <td key={Math.random().toString()}>
+            <GetUserName id={author_id} />
+          </td>
+          <td key={Math.random().toString()}>{formatDate(create_date)}</td>
           <td key={Math.random().toString()}>{priority}</td>
-          <td key={Math.random().toString()}>{state_id}</td>
+          <td key={Math.random().toString()}>
+            <GetStateName id={state_id} />
+          </td>
         </tr>
       )
     );
@@ -104,29 +175,7 @@ function IAmImplemtnter() {
   if (getAllUserImplementerTasks === null) {
     <tr>У вас нет задач</tr>;
   } else {
-    function GetUserName({ id }) {
-      const { data, loading, error } = useQuery(GET_USER, {
-        variables: { userId: id },
-      });
-
-      if (loading) {
-        return <p>Loading...</p>;
-      }
-      if (error) {
-        return <p>{error.message} </p>;
-      }
-
-      if (data.getUser === null) {
-        return <span>не назначен</span>;
-      } else {
-        return data.getUser.map(({ first_name, middle_name }) => (
-          <span>
-            {first_name} {" "}
-            {middle_name}{", "}
-          </span>
-        ));
-      }
-    }
+   
 
     return getAllUserImplementerTasks.map(
       (
@@ -136,6 +185,7 @@ function IAmImplemtnter() {
           priority,
           state_id,
           mata_tags,
+          author_id,
           create_date,
           title,
         },
@@ -154,14 +204,22 @@ function IAmImplemtnter() {
             </a>
           </td>
           <td key={Math.random().toString()}>
-            {mata_tags.map((item) => `${item}`)}
+            {mata_tags.map((item) => `${item}, `)}
           </td>
           <td key={Math.random().toString()}>
             <GetUserName id={implementer_id} />
           </td>
-          <td key={Math.random().toString()}>{create_date}</td>
+          <td key={Math.random().toString()}>
+            <GetOrgName id={author_id} />
+          </td>
+          <td key={Math.random().toString()}>
+            <GetUserName id={author_id} />
+          </td>
+          <td key={Math.random().toString()}>{formatDate(create_date)}</td>
           <td key={Math.random().toString()}>{priority}</td>
-          <td key={Math.random().toString()}>{state_id}</td>
+          <td key={Math.random().toString()}>
+            <GetStateName id={state_id} />
+          </td>
         </tr>
       )
     );
@@ -183,6 +241,8 @@ function MyTask() {
               <th scope="col">Тема</th>
               <th scope="col">Наименование</th>
               <th scope="col">Исполнитель</th>
+              <th scope="col">Организация</th>
+              <th scope="col">Заказчик</th>
               <th scope="col">Дата подачи заявки</th>
               <th scope="col">Приоритет</th>
               <th scope="col">Статус</th>
@@ -212,6 +272,8 @@ function MyWorkTask() {
               <th scope="col">Тема</th>
               <th scope="col">Наименование</th>
               <th scope="col">Исполнитель</th>
+              <th scope="col">Организация</th>
+              <th scope="col">Заказчик</th>
               <th scope="col">Дата подачи заявки</th>
               <th scope="col">Приоритет</th>
               <th scope="col">Статус</th>

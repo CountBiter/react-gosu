@@ -17,10 +17,12 @@ export const GET_ALLTASKS = gql`
         old_state {
           state_id
           date
+          duration
         }
         now_state {
           state_id
           date
+          duration
         }
       }
       priority
@@ -488,41 +490,41 @@ export const ADD_FILE_TO_TASK = gql`
 `;
 
 export const ADD_IMPLEM_TO_TASK = gql`
-mutation Mutation($implemId: [String], $taskId: String) {
-  addImplemToTask(implemId: $implemId, taskId: $taskId) {
-    _id
-    task_type_id
-    title
-    description
-    create_date
-    acceptence_date
-    finished_date
-    author_id
-    implementer_id
-    state_id
-    state_time {
-      old_state {
-        state_id
-        date
-        duration
-      }
-      now_state {
-        state_id
-        date
-        duration
-      }
-    }
-    priority
-    mata_tags
-    files {
+  mutation Mutation($implemId: [String], $taskId: String) {
+    addImplemToTask(implemId: $implemId, taskId: $taskId) {
       _id
-      name
-      author_id
+      task_type_id
+      title
+      description
       create_date
-      file_url
+      acceptence_date
+      finished_date
+      author_id
+      implementer_id
+      state_id
+      state_time {
+        old_state {
+          state_id
+          date
+          duration
+        }
+        now_state {
+          state_id
+          date
+          duration
+        }
+      }
+      priority
+      mata_tags
+      files {
+        _id
+        name
+        author_id
+        create_date
+        file_url
+      }
     }
   }
-}
 `;
 
 export const ADD_ROLE = gql`
