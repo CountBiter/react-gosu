@@ -36,13 +36,17 @@ function AddCommentsToTask() {
 
   return (
     <>
-      <input
-        type="text"
-        className="form-control"
+    <div class="input-group mb-3">
+      <input 
+        class="form-control" 
+        placeholder="Добавить комментарий" 
+        aria-describedby="button-addon2" 
         onChange={(e) => setComment(e.target.value)}
       />
-      <button
-        className="btn bg-primary text-light"
+      <button 
+        class="btn btn-outline-primary pb-0" 
+        type="button" 
+        id="button-addon2" 
         onClick={() => {
           addCommentsToTask({
             variables: {
@@ -54,9 +58,11 @@ function AddCommentsToTask() {
             },
           });
         }}
-      >
-        <h5>Добавить комментарий</h5>
-      </button>
+        >
+          <h4><i class="bi bi-chevron-double-right"></i></h4>
+          
+        </button>
+    </div>
     </>
   );
 }
@@ -97,9 +103,20 @@ function TaskComments() {
   }
 
   return getAllComments.map((item) => (
-    <h4 className="card-title" key={Math.random()}>
-      <GetUserNameComment author_id={item.author_id} /> <br /> {item.comments}
-    </h4>
+    <div className="card p-2 my-3" key={Math.random()}>
+      <div className="card-title border-bottom d-flex justify-content-between">
+        <h4 className="fw-bold">
+          <GetUserNameComment author_id={item.author_id} />
+        </h4>
+        time & date
+      </div>
+      <div className="card-body p-0">
+        <h5>
+          {item.comments}
+        </h5>
+
+      </div>
+    </div>
   ));
 }
 
@@ -345,20 +362,20 @@ function Task() {
             </div>
           </div>
           <div className="row p-0">
-            <div className="col-md-8 pe-5">
+
+
+            <div className="col-8 pe-5">
               <div className="card bg-primary bg-opacity-25 m-0 mb-5">
                 <div className="card-body border-bottom bg-primary rounded-top">
-                  <h4 className="text-light text4">Задача id: {getTask._id}</h4>
+                  <h4 className="text-light">
+                    Задача id: {getTask._id}
+                  </h4>
                 </div>
                 <div className="card-body">
-                  <div
-                    className="form-control"
-                    id="exampleFormControlTextarea1"
-                    rows="2"
-                  >
-                    {getTask.description}
+                  <div className="py-4">
+                    <h4>{getTask.description}</h4> 
                   </div>
-                  <div className="card-subtitle position-relative d-flex py-2">
+                  <div className="card-subtitle position-relative d-flex border-top py-2">
                     <label className="btn p-0 m-0" id="addfile-btn">
                       <i className="bi bi-paperclip h4 d-inline-block"></i>
                       <h5
@@ -373,19 +390,37 @@ function Task() {
                   </div>
                 </div>
 
-                <div className="card-footer bg-transparent py-3">
-                  <button className="btn bg-primary bg-opacity-50 text-primary fw-bolder">
-                    Сохранить
+                <div className="card-footer bg-transparent d-flex justify-content-end py-3">
+                  <button className="btn bg-primary bg-opacity-75 text-light fw-bolder px-4">
+                    <h5>Сохранить</h5> 
                   </button>
                 </div>
               </div>
-              <div className="card mb-5 mb-md-0">
+
+
+
+              <div className="card border-primary">
                 <div className="card-body">
-                  <TaskComments />
+                  <div className="card-title"><h4>Комментарии</h4></div>
+                </div>
+                <div className="card-footer">
+                  <div className="border-bottom mb-3">
+                    <TaskComments />
+                  </div>
                   <AddCommentsToTask />
                 </div>
               </div>
+
+
+
+              <div className="py-4">
+                {" "}
+                <ForInfoTask userId={getTask.author_id} />
+              </div>
             </div>
+
+
+
             <div className="col-md-4 bg-Success">
               <div className="card">
                 <div className="card-title bg-primary rounded-top py-4"> </div>
@@ -484,12 +519,11 @@ function Task() {
                 </div>
               </div>
             </div>
+
+
+      
           </div>
         </div>
-      </div>
-      <div className="py-5">
-        {" "}
-        <ForInfoTask userId={getTask.author_id} />
       </div>
     </>
   );

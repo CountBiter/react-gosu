@@ -37,10 +37,14 @@ function AddTaskForOther() {
             setPriorityState(e.target.value);
           }}
         >
-          <option> </option>
-          <option>Обычный</option>
+          <option selected disabled>
+            {" "}
+          </option>
+          <option>Низкий</option>
+          <option className="bg-warning bg-opacity-25">Средний</option>
           <option className="bg-warning bg-opacity-50">Высокий</option>
           <option className="bg-danger bg-opacity-50">Критический</option>
+          <option className="bg-danger bg-opacity-75">Блокирующий</option>
         </select>
       </div>
       <div className="mb-3">

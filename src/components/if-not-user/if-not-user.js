@@ -244,14 +244,14 @@ function ForProfile() {
     permmission.admin
   ) {
     return (
-      <div className="mb-3 d-flex">
-        <div className="col-6 col-md-4 bg-light rounded d-flex align-items-center px-md-2 py-2 me-md-5 me-2">
-          <h1 className="text-primary text1 ms-1">125 &ensp;</h1>
-          <h3 className="text3">закрытых заявок</h3>
+      <div className="bg-primary bg-opacity-25 rounded-end">
+        <div className="row">
+          <h1 className="text-primary col-3 ms-1 border-end border-primary">125</h1>
+          <h2 className="col-8 m-0 pt-1">Закрытых заявок</h2>
         </div>
-        <div className="col-5 col-md-4 bg-light rounded d-flex align-items-center px-md-2 py-2">
-          <h1 className="text-primary text1 ms-1">84 &ensp;</h1>
-          <h3 className="text3">заявок в работе</h3>
+        <div className="row">
+          <h1 className="text-primary col-3 ms-1 border-end border-primary">84</h1>
+          <h2 className="col-8 m-0 pt-1">Заявок в работе</h2>
         </div>
       </div>
     );
@@ -488,19 +488,19 @@ function ForInfoTask({ userId }) {
     userId === userRole.data.getUserByToken._id
   ) {
     return (
-      <div className="mt-4 d-md row mb-4">
+      <div className="row my-4 px-3">
         <button
-          className="btn bg-primary text-light col mx-1"
+          className="btn bg-primary text-light col-4"
           onClick={(e) => {
             e.preventDefault();
           }}
         >
           {" "}
-          <h5 className="text4">Отменить заявку</h5>{" "}
+          <h5 className="">Отменить заявку</h5>{" "}
         </button>
-        <button className="btn bg-light text-primary col mx-1">
+        <button className="btn bg-light text-primary col-4">
           <a href="/task">
-            <h5 className="text4">Закрыть заявку</h5>{" "}
+            <h5 className="">Закрыть заявку</h5>{" "}
           </a>
         </button>
       </div>

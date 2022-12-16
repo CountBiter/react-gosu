@@ -229,8 +229,8 @@ function IAmImplemtnter() {
 function MyTask() {
   return (
     <>
-      <div className="card bg-primary text-light px-5 py-2 mt-5 d-none d-md-flex flex-row align-items-center justify-content-between">
-        <h1>Мои Задачи</h1>
+      <div className="card bg-primary text-light px-4 py-2 mt-4 d-none d-md-flex flex-row align-items-center justify-content-between">
+        <h3>Мои Задачи</h3>
         <i className="bi bi-chevron-right"></i>
       </div>
       <div className="card d-none d-md-flex">
@@ -260,8 +260,8 @@ function MyTask() {
 function MyWorkTask() {
   return (
     <>
-      <div className="card bg-primary text-light px-5 py-2 mt-5 d-none d-md-flex flex-row align-items-center justify-content-between">
-        <h1>Мои Задачи</h1>
+      <div className="card bg-primary text-light px-4 py-2 mt-5 d-none d-md-flex flex-row align-items-center justify-content-between">
+        <h3>Мои Задачи в работе</h3>
         <i className="bi bi-chevron-right"></i>
       </div>
       <div className="card d-none d-md-flex">
@@ -296,7 +296,7 @@ function LabTabs() {
   };
 
   return (
-    <Box>
+    <Box className="mt-4">
       <TabContext value={value}>
         <Box>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -304,11 +304,11 @@ function LabTabs() {
             <Tab label="Я выполняю" value="2" />
           </TabList>
         </Box>
-        <TabPanel value="1">
+        <TabPanel value="1" className="p-0">
           {" "}
           <MyTask />{" "}
         </TabPanel>
-        <TabPanel value="2">
+        <TabPanel value="2" className="p-0">
           {" "}
           <MyWorkTask />{" "}
         </TabPanel>
