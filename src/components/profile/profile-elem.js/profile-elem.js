@@ -10,69 +10,11 @@ import {
   GET_ALL_USER_TASKS,
   GET_ALL_USER_IMPLEMENTER_TASKS,
   GET_USER,
-  GET_STATE,
-  GET_ORG,
 } from "../../../apollo-client/apollo-request";
 import { formatDate } from "../../format-date";
+import { GetOrgName, GetStateName, GetUserName } from "../../hooks";
 
- function GetOrgName({ id }) {
-      const { data, loading, error } = useQuery(GET_ORG, {
-        variables: {
-          userId: id,
-        },
-      });
 
-      if (loading) {
-        return <p>Loading...</p>;
-      }
-      if (error) {
-        return <p>{error.message} </p>;
-      }
-
-      return <span>{data.getOrgByUserId.title}</span>;
-    }
-
-    function GetUserName({ id }) {
-      const { data, loading, error } = useQuery(GET_USER, {
-        variables: { userId: id },
-      });
-
-      if (loading) {
-        return <p>Loading...</p>;
-      }
-      if (error) {
-        return <p>{error.message} </p>;
-      }
-
-      if (data.getUser.length === 0) {
-        return <span>не назначен</span>;
-      } else {
-        return data.getUser.map(({ first_name, middle_name }) => (
-          <span>
-            {first_name} {middle_name}
-            <br />
-          </span>
-        ));
-      }
-    }
-    function GetStateName({ id }) {
-      const { data, loading, error } = useQuery(GET_STATE, {
-        variables: { stateId: id },
-      });
-
-      if (loading) {
-        return <p>Loading...</p>;
-      }
-      if (error) {
-        return <p>{error.message} </p>;
-      }
-
-      if (data.getState === null) {
-        return <span>не назначен</span>;
-      } else {
-        return <span>{data.getState.title}</span>;
-      }
-    }
 
 function UserTask() {
   const userToken = JSON.parse(localStorage.getItem("token"));
@@ -88,29 +30,6 @@ function UserTask() {
   if (getAllUserTasks === null) {
     <th>У вас нет задач</th>;
   } else {
-    function GetUserName({ id }) {
-      const { data, loading, error } = useQuery(GET_USER, {
-        variables: { userId: id },
-      });
-
-      if (loading) {
-        return <p>Loading...</p>;
-      }
-      if (error) {
-        return <p>{error.message} </p>;
-      }
-
-      if (data.getUser === null) {
-        return <span>не назначен</span>;
-      } else {
-        return data.getUser.map(({ first_name, middle_name }) => (
-          <span>
-            {first_name} {middle_name}
-            {", "}
-          </span>
-        ));
-      }
-    }
 
     return getAllUserTasks.map(
       (

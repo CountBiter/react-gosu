@@ -18,6 +18,8 @@ import { ForInfoTask } from "../../../if-not-user";
 import Popup from "reactjs-popup";
 import Select from "react-select";
 import "reactjs-popup/dist/index.css";
+import { formatDate, formatDuration } from "../../../format-date";
+import { GetOrgName, GetStateName, GetUserName } from "../../../hooks";
 
 function AddCommentsToTask() {
   const taskId = localStorage.getItem("taskId");
@@ -189,46 +191,8 @@ function Task() {
 
   const { getTask } = data;
 
-  function GetUserName({ userId }) {
-    const { data, loading, error } = useQuery(GET_USER, {
-      variables: { userId: userId },
-    });
-    if (loading) {
-      return <p>Loading...</p>;
-    }
-    if (error) {
-      return <p>{error.message} </p>;
-    }
-    if (data.getUser.length === 0 || data.getUser === null) {
-      return <span>не назначен</span>;
-    } else {
-      return data.getUser.map(({ first_name, middle_name }) => (
-        <span>
-          {first_name} {middle_name}
-          <br />
-        </span>
-      ));
-    }
-  }
 
-  function GetStateName({ id }) {
-    const { data, loading, error } = useQuery(GET_STATE, {
-      variables: { stateId: id },
-    });
 
-    if (loading) {
-      return <p>Loading...</p>;
-    }
-    if (error) {
-      return <p>{error.message} </p>;
-    }
-
-    if (data.getState === null) {
-      return <span>не назначен</span>;
-    } else {
-      return <span>{data.getState.title}</span>;
-    }
-  }
 
   function GetState() {
     const allState = useQuery(GET_ALL_STASUS);
@@ -259,17 +223,6 @@ function Task() {
       return <div>{error.message} </div>;
     }
 
-    const formatDuration = (d) => {
-      d = Math.floor(Number(d) / 1000);
-      const s = Number(d) % 60;
-      d = Math.floor(Number(d) / 60);
-      const m = Number(d) % 60;
-      const h = Math.floor(Number(d) / 60);
-      return [h > 0 ? h : null, m, s]
-        .filter((x) => x !== null)
-        .map((x) => (x < 10 ? "0" : "") + x)
-        .join(":");
-    };
     setInterval(() => {
       let date = Date.now() - Number(data.getStateTime.date);
       setTime(date + 1000);
@@ -278,40 +231,6 @@ function Task() {
     localStorage.setItem("time", time);
 
     return <div>{formatDuration(time)}</div>;
-  }
-
-  function time(time) {
-    const padTo2Digits = (num) => {
-      return num.toString().padStart(2, "0");
-    };
-    const date = new Date(Number(time));
-
-    return `    ${[
-      padTo2Digits(date.getHours()),
-      padTo2Digits(date.getMinutes()),
-    ].join(":")}
-            ${[
-              padTo2Digits(date.getDate()),
-              padTo2Digits(date.getMonth() + 1),
-              date.getFullYear(),
-            ].join(".")}`;
-  }
-
-  function GetOrgName({ id }) {
-    const { data, loading, error } = useQuery(GET_ORG, {
-      variables: {
-        userId: id,
-      },
-    });
-
-    if (loading) {
-      return <p>Loading...</p>;
-    }
-    if (error) {
-      return <p>{error.message} </p>;
-    }
-
-    return <span>{data.getOrgByUserId.title}</span>;
   }
   function GetUserNameAuthor({ id }) {
     const { data, loading, error } = useQuery(GET_USER, {
@@ -395,9 +314,6 @@ function Task() {
                   </button>
                 </div>
               </div>
-
-
-
               <div className="card border-primary">
                 <div className="card-body">
                   <div className="card-title"><h4>Комментарии</h4></div>
@@ -409,17 +325,11 @@ function Task() {
                   <AddCommentsToTask />
                 </div>
               </div>
-
-
-
               <div className="py-4">
                 {" "}
                 <ForInfoTask userId={getTask.author_id} />
               </div>
             </div>
-
-
-
             <div className="col-md-4 bg-Success">
               <div className="card">
                 <div className="card-title bg-primary rounded-top py-4"> </div>
@@ -438,12 +348,12 @@ function Task() {
                   </div>
                   <div className="row border-bottom py-2">
                     <div className="col text-secondary">Поставлена:</div>
-                    <div className="col">{time(getTask.create_date)}</div>
+                    <div className="col">{formatDate(getTask.create_date)}</div>
                   </div>
                   <div className="row border-bottom py-2">
                     <div className="col text-secondary">Исполнитель:</div>
                     <div className="col">
-                      <GetUserName userId={getTask.implementer_id} />
+                      <GetUserName id={getTask.implementer_id} />
                     </div>
                   </div>
                   <div className="row border-bottom py-2">

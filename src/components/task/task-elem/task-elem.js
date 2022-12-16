@@ -2,11 +2,9 @@ import { useQuery } from "@apollo/client";
 import {
   GET_ALLTASKS,
   GET_ALL_STASUS,
-  GET_ORG,
-  GET_STATE,
-  GET_USER,
 } from "../../../apollo-client/apollo-request";
 import  { formatDate } from "../../format-date/";
+import { GetOrgName, GetStateName, GetUserName } from "../../hooks";
 
 function AllTask({ page = 0, statusId }) {
   const { loading, error, data } = useQuery(GET_ALLTASKS, {
@@ -28,68 +26,7 @@ function AllTask({ page = 0, statusId }) {
         <td>Error : {error.message}</td>
       </tr>
     );
-  function GetOrgName({ id }) {
-    const { data, loading, error } = useQuery(GET_ORG, {
-      variables: {
-        userId: id,
-      },
-    });
-
-    if (loading) {
-      return <p>Loading...</p>;
-    }
-    if (error) {
-      return <p>{error.message} </p>;
-    }
-
-    return <span>{data.getOrgByUserId.title}</span>;
-  }
-
-  function GetUserName({ id }) {
-    const { data, loading, error } = useQuery(GET_USER, {
-      variables: { userId: id },
-    });
-
-    if (loading) {
-      return <p>Loading...</p>;
-    }
-    if (error) {
-      return <p>{error.message} </p>;
-    }
-
-    if (data.getUser.length === 0) {
-      return <span>не назначен</span>;
-    } else {
-      return data.getUser.map(({ first_name, middle_name }) => (
-        <span>
-          {first_name} {middle_name}
-          <br />
-        </span>
-      ));
-    }
-  }
-  function GetStateName({ id }) {
-    const { data, loading, error } = useQuery(GET_STATE, {
-      variables: { stateId: id },
-    });
-
-    if (loading) {
-      return <p>Loading...</p>;
-    }
-    if (error) {
-      return <p>{error.message} </p>;
-    }
-
-    if (data.getState === null) {
-      return <span>не назначен</span>;
-    } else {
-      return (
-        <span>
-          {data.getState.title}
-        </span>
-      );
-    }
-  }
+  
   if (data.getTaskByState) {
     return data.getTaskByState
       .map(
@@ -104,7 +41,7 @@ function AllTask({ page = 0, statusId }) {
             create_date,
             title,
           },
-          i
+          
         ) => (
           <tr key={Math.random().toString()}>
             <th scope="row" key={Math.random().toString()}>
