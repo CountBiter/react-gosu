@@ -40,10 +40,10 @@ function AddTaskForHardSetitng() {
             {" "}
           </option>
           <option>Низкий</option>
-          <option>Средний</option>
-          <option>Высокий</option>
-          <option>Критический</option>
-          <option>Блокирующий</option>
+          <option className="bg-warning bg-opacity-25">Средний</option>
+          <option className="bg-warning bg-opacity-50">Высокий</option>
+          <option className="bg-danger bg-opacity-50">Критический</option>
+          <option className="bg-danger bg-opacity-75">Блокирующий</option>
         </select>
       </div>
       <div className="mb-3">

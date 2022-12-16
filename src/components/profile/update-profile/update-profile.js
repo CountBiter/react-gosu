@@ -22,10 +22,10 @@ function AddUserContact() {
   if (error) return <p>Error : {error.message}</p>;
 
   return (
-    <form className="row d-flex justify-content-evenly mt-md-4">
-      <div className="pe-lg-5 col-md-6">
+    <form className="pt-4">
+      <div className="">
         <label className="form-label">
-          <h4 className="text2">Телефон:</h4>{" "}
+          <h5 className="text2">Телефон:</h5>{" "}
         </label>
         <input
           className="form-control mb-4 border-dark"
@@ -34,7 +34,7 @@ function AddUserContact() {
           onChange={(e) => setUserContactValue(e.target.value)}
         />
         <label className="form-label">
-          <h4 className="text2">Тип:</h4>{" "}
+          <h5 className="text2">Тип:</h5>{" "}
         </label>
         <input
           className="form-control mb-4 border-dark"
@@ -43,9 +43,9 @@ function AddUserContact() {
           onChange={(e) => setUserContactType(e.target.value)}
         />
       </div>
-      <div className="form-floating mb-3 mt-lg-4">
+      <div className="form-floating mb-3 mt-lg-5">
         <button
-          className="btn btn-primary col-12 text-uppercase fs-6 fw-bolder py-2"
+          className="btn btn-primary col-12 text-uppercase fw-bolder py-2"
           id="login"
           onClick={(e) => {
             e.preventDefault();
@@ -85,10 +85,10 @@ function UpdateUser() {
     return <div>error</div>;
   }
   return (
-    <form className="row d-flex justify-content-evenly mt-md-4">
-      <div className="pe-lg-5 col-md-6">
+    <form className="pt-4 px-0">
+      <div className="">
         <label className="form-label">
-          <h4 className="text2">Фамилия:</h4>{" "}
+          <h5 className="">Фамилия:</h5>{" "}
         </label>
         <input
           className="form-control mb-4 border-dark"
@@ -99,9 +99,9 @@ function UpdateUser() {
           onChange={(e) => setUserMiddleName(e.target.value)}
         />
       </div>
-      <div className="pe-lg-5 col-md-6">
+      <div className="">
         <label className="form-label">
-          <h4 className="text2">Имя:</h4>{" "}
+          <h5 className="">Имя:</h5>{" "}
         </label>
         <input
           className="form-control mb-4 border-dark"
@@ -112,9 +112,9 @@ function UpdateUser() {
           onChange={(e) => setUserName(e.target.value)}
         />
       </div>
-      <div className="pe-lg-5 col-md-6">
+      <div className="">
         <label className="form-label">
-          <h4 className="text2">Отчество:</h4>{" "}
+          <h5 className="">Отчество:</h5>{" "}
         </label>
         <input
           className="form-control mb-4 border-dark"
@@ -126,9 +126,9 @@ function UpdateUser() {
         />
       </div>
 
-      <div className="ps-lg-5 col-md-6">
+      <div className="">
         <label className="form-label">
-          <h4 className="text2">Пароль:</h4>{" "}
+          <h5 className="">Пароль:</h5>{" "}
         </label>
         <input
           className="form-control mb-4 border-dark"
@@ -163,7 +163,7 @@ function UpdateUser() {
         </button>
       </div>
       <div className="form-floating text-center justify-content-between mb-0">
-        <button>Забыли пароль?</button>
+        <button className="btn">Забыли пароль?</button>
       </div>
     </form>
   );
@@ -179,17 +179,17 @@ function Update() {
   return (
     <Box>
       <TabContext value={value}>
-        <Box>
+        <Box className="d-flex justify-content-center card-title bg-primary bg-opacity-50 rounded-top text-light m-0 py-2">
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             <Tab label="Профиль" value="1" />
             <Tab label="Контакты" value="2" />
           </TabList>
         </Box>
-        <TabPanel value="1">
+        <TabPanel value="1" className="card-body rounded-bottom px-md-5 py-0">
           {" "}
           <UpdateUser />{" "}
         </TabPanel>
-        <TabPanel value="2">
+        <TabPanel value="2" className="card-body rounded-bottom px-md-5 py-0">
           {" "}
           <AddUserContact />{" "}
         </TabPanel>
