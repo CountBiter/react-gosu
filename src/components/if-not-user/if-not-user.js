@@ -167,58 +167,7 @@ function ForTaskPage() {
       </div>
     );
   }
-
-  return "Ok";
 }
-
-// function ForIntoTaskPage() {
-//   const userToken = JSON.parse(localStorage.getItem("token"));
-
-//   const { loading, error, data } = useQuery(GET_USERROLE, {
-//     variables: {
-//       token: userToken.token,
-//     },
-//   });
-
-//   if (loading) {
-//     return <div>Loading..</div>;
-//   }
-//   if (error) {
-//     return <div>error</div>;
-//   }
-
-//   const { permmission } = data.getRole;
-
-//   if (permmission.files && permmission.title && permmission.description) {
-//     return null;
-//   } else if (
-//     (permmission.implementer && permmission.state && permmission.priority) ||
-//     permmission.admin
-//   ) {
-//     return (
-//       <div className="card card-time bg-primary text-light mt-4">
-//         <div className="card-body pb-0">
-//           <div className="card-title">Время с момента подачи заявки:</div>
-//           <h4>
-//             <input
-//               className="form-control bg-transparent"
-//               type="time"
-//               value={"15:12"}
-//             />
-//           </h4>
-//         </div>
-//         <div className="card-body">
-//           <div className="card-title">Время с момента принятия заявки:</div>
-//           <h4>
-//             <input className="form-control bg-transparent" type="time" />
-//           </h4>
-//         </div>
-//       </div>
-//     );
-//   }
-
-//   return "Ok";
-// }
 
 function ForProfile() {
   const userToken = JSON.parse(localStorage.getItem("token"));

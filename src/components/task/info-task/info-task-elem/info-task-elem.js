@@ -182,7 +182,6 @@ function Task() {
     if (error) {
       return <p>{error.message} </p>;
     }
-    console.log(data);
     if (data.getUser.length === 0 || data.getUser === null) {
       return <span>не назначен</span>;
     } else {
@@ -442,7 +441,7 @@ function Task() {
                             onChange={(e) => {
                               setState(e.target.value);
                             }}
-                            value={state}
+                            defaultValue={getTask.state_id}
                           >
                             <GetState />
                           </select>
@@ -469,9 +468,6 @@ function Task() {
                         implemId={implem}
                       />
                     </Popup>
-                    <button className="btn col-5 bg-primary bg-opacity-25 text-primary">
-                      Закрыть предв.
-                    </button>
                   </div>
                 </div>
               </div>

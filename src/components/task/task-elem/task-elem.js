@@ -91,7 +91,6 @@ function AllTask({ page = 0, statusId }) {
     }
   }
   if (data.getTaskByState) {
-    console.log(data.getTaskByState)
     return data.getTaskByState
       .map(
         (
