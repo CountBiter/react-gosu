@@ -7,7 +7,6 @@ import {
   GET_ALL_COMMENTS_TO_TASK,
   ADD_COMMENT_TO_TASK,
   GET_USER,
-  GET_STATE_TO_TASK,
   GET_ALL_STASUS,
   UPDATE_STATE_TO_TASK,
   GET_ORG,
@@ -78,37 +77,35 @@ function TaskComments() {
 
   const { getAllComments } = data;
 
-  return getAllComments.map((item) => {
-    function GetUserNameComment() {
-      const { data, loading, error } = useQuery(GET_USER, {
-        variables: { userId: item.author_id },
-      });
+  function GetUserNameComment({ author_id }) {
+    const userName = useQuery(GET_USER, {
+      variables: { userId: author_id },
+    });
 
-      if (loading) {
-        return <p>Loading...</p>;
-      }
-      if (error) {
-        return <p>{error.message} </p>;
-      }
-
-      return (
-        <span>
-          {data.getUser.first_name} {data.getUser.middle_name}
-        </span>
-      );
+    if (userName.loading) {
+      return <p>Loading...</p>;
+    }
+    if (userName.error) {
+      return <p>{error.message} </p>;
     }
     return (
-      <h4 className="card-title" key={Math.random()}>
-        <GetUserNameComment /> <br /> {item.comments}
-      </h4>
+      <span>
+        {userName.data.getUser[0].first_name}{" "}
+        {userName.data.getUser[0].middle_name}
+      </span>
     );
-  });
+  }
+
+  return getAllComments.map((item) => (
+    <h4 className="card-title" key={Math.random()}>
+      <GetUserNameComment author_id={item.author_id} /> <br /> {item.comments}
+    </h4>
+  ));
 }
 
 function UpdateStateAndImpl({ stateId, taskId, duration, implemId }) {
   const [updateStateToTask, { loading, error }] =
     useMutation(UPDATE_STATE_TO_TASK);
-  console.log(implemId);
 
   const [addImplemToTask, data] = useMutation(ADD_IMPLEM_TO_TASK);
   if (loading) {
@@ -176,7 +173,6 @@ function Task() {
   const { getTask } = data;
 
   function GetUserName({ userId }) {
-    console.log(getTask.implementer_id);
     const { data, loading, error } = useQuery(GET_USER, {
       variables: { userId: userId },
     });
@@ -326,7 +322,6 @@ function Task() {
   }
   const implementerSelect = [{ label: "", value: "" }];
   allImplementer.data.getAllImplementer.forEach((item) => {
-    console.log(item);
     implementerSelect.push({
       label: `${item.first_name} ${item.middle_name}`,
       value: item._id,
@@ -350,13 +345,10 @@ function Task() {
             </div>
           </div>
           <div className="row p-0">
-
             <div className="col-md-8 pe-5">
               <div className="card bg-primary bg-opacity-25 m-0 mb-5">
                 <div className="card-body border-bottom bg-primary rounded-top">
-                  <h4 className="text-light text4">
-                    Задача id: {getTask._id}
-                  </h4>
+                  <h4 className="text-light text4">Задача id: {getTask._id}</h4>
                 </div>
                 <div className="card-body">
                   <div

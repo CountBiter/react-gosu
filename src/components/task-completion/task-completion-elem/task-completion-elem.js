@@ -137,24 +137,19 @@ function AllTaskCompletion({ page = 0, state }) {
       ));
     }
   }
-  function GetStateName({ id }) {
-    const { data, loading, error } = useQuery(GET_STATE, {
-      variables: { stateId: id },
-    });
 
-    if (loading) {
-      return <p>Loading...</p>;
-    }
-    if (error) {
-      return <p>{error.message} </p>;
-    }
+  const formatDuration = (d) => {
+    d = Math.floor(Number(d) / 1000);
+    const s = Number(d) % 60;
+    d = Math.floor(Number(d) / 60);
+    const m = Number(d) % 60;
+    const h = Math.floor(Number(d) / 60);
+    return [h > 0 ? h : null, m, s]
+      .filter((x) => x !== null)
+      .map((x) => (x < 10 ? "0" : "") + x)
+      .join(":");
+  };
 
-    if (data.getState === null) {
-      return <span>не назначен</span>;
-    } else {
-      return <span>{data.getState.title}</span>;
-    }
-  }
   if (data.getTaskByState) {
     console.log(data.getTaskByState);
     return data.getTaskByState
@@ -164,7 +159,7 @@ function AllTaskCompletion({ page = 0, state }) {
             _id,
             implementer_id,
             priority,
-            state_id,
+            state_time,
             author_id,
             mata_tags,
             create_date,
@@ -198,9 +193,11 @@ function AllTaskCompletion({ page = 0, state }) {
             </td>
             <td key={Math.random().toString()}>{formatDate(create_date)}</td>
             <td key={Math.random().toString()}>{priority}</td>
-            <td key={Math.random().toString()}>
-              <GetStateName id={state_id} />
-            </td>
+            {state_time.old_state.map((item) => (
+              <td key={Math.random().toString()}>
+                {formatDuration(Number(item.duration))}
+              </td>
+            ))}
           </tr>
         )
       )
