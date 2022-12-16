@@ -14,7 +14,7 @@ export default class Header extends Component {
           <a href="/homepage">
             <button className="btn btn-outline-primary px-5 py-2">
                 <h5 className="my-1">
-                  Создать заявку 
+                  Создать заявку
                   <i className="bi bi-plus-square ps-2"></i>
                 </h5>
             </button>
