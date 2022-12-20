@@ -169,44 +169,6 @@ function ForTaskPage() {
   }
 }
 
-function ForProfile() {
-  const userToken = JSON.parse(localStorage.getItem("token"));
-
-  const { loading, error, data } = useQuery(GET_USERROLE, {
-    variables: {
-      token: userToken.token,
-    },
-  });
-
-  if (loading) {
-    return <div>Loading..</div>;
-  }
-  if (error) {
-    return <div>error</div>;
-  }
-
-  const { permmission } = data.getRole;
-  if (permmission.files && permmission.title && permmission.description) {
-    return <div></div>;
-  } else if (
-    (permmission.implementer && permmission.state && permmission.priority) ||
-    permmission.admin
-  ) {
-    return (
-      <div className="bg-primary bg-opacity-25 rounded-end">
-        <div className="row">
-          <h1 className="text-primary col-3 ms-1 border-end border-primary">125</h1>
-          <h2 className="col-8 m-0 pt-1">Закрытых заявок</h2>
-        </div>
-        <div className="row">
-          <h1 className="text-primary col-3 ms-1 border-end border-primary">84</h1>
-          <h2 className="col-8 m-0 pt-1">Заявок в работе</h2>
-        </div>
-      </div>
-    );
-  }
-}
-
 function ForAdminAddClient() {
   const userToken = JSON.parse(localStorage.getItem("token"));
 
@@ -465,7 +427,6 @@ function ForInfoTask({ userId }) {
 export {
   ForHomePage,
   ForTaskPage,
-  ForProfile,
   ForAdminAddClient,
   ForAdminAddOrg,
   ForAdminAddRole,

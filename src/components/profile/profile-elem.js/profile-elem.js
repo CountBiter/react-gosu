@@ -9,12 +9,41 @@ import { useQuery } from "@apollo/client";
 import {
   GET_ALL_USER_TASKS,
   GET_ALL_USER_IMPLEMENTER_TASKS,
-  GET_USER,
+  GET_USER_CONTACTS,
 } from "../../../apollo-client/apollo-request";
 import { formatDate } from "../../format-date";
 import { GetOrgName, GetStateName, GetUserName } from "../../hooks";
 
+function UserContacts({ id }) {
+  const { data, loading, error } = useQuery(GET_USER_CONTACTS, {
+    variables: {
+      token: id,
+    },
+  });
 
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error : {error.message}</p>;
+
+  console.log(data);
+
+  return (
+    <>
+      <div className="col-5 border-end">
+        <h5 className="text-secondary">тип</h5>
+        {data.getContact.length !== 0 ? data.getContact.map(({type_ci, _id}) => (
+          <h4 key={_id}>{type_ci.title}</h4>
+        )) : "Нет контактов"}
+      </div>
+      <div className="col-7">
+        <h5 className="text-secondary">телефон</h5>
+        {data.getContact.length !== 0 ? data.getContact.map(({value}) => (
+          <h4>{value}</h4>
+        )) : "Нет контактов"}
+
+      </div>
+    </>
+  );
+}
 
 function UserTask() {
   const userToken = JSON.parse(localStorage.getItem("token"));
@@ -30,7 +59,6 @@ function UserTask() {
   if (getAllUserTasks === null) {
     <th>У вас нет задач</th>;
   } else {
-
     return getAllUserTasks.map(
       (
         {
@@ -94,8 +122,6 @@ function IAmImplemtnter() {
   if (getAllUserImplementerTasks === null) {
     <tr>У вас нет задач</tr>;
   } else {
-   
-
     return getAllUserImplementerTasks.map(
       (
         {
@@ -235,4 +261,4 @@ function LabTabs() {
     </Box>
   );
 }
-export default LabTabs;
+export { LabTabs, UserContacts };

@@ -73,6 +73,21 @@ export const GET_USERROLE = gql`
   }
 `;
 
+export const GET_USER_CONTACTS = gql`
+  query GetContact($token: String) {
+    getContact(token: $token) {
+      _id
+      user_id
+      type_ci {
+        _id
+        title
+        icon
+      }
+      value
+    }
+  }
+`;
+
 export const GET_USER = gql`
   query Query($userId: [String]) {
     getUser(userId: $userId) {

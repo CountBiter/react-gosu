@@ -1,5 +1,5 @@
 export const PostLoginForm = async (LoginData) => {
-  const userToken = await fetch(`http://192.168.31.207:3000/login`, {
+  const userToken = await fetch(`http://localhost:3000/login`, {
     method: "POST",
     body: JSON.stringify(LoginData),
     headers: {
@@ -16,7 +16,7 @@ export const PostLoginForm = async (LoginData) => {
 
 export const PostOrgLoginForm = async (orgData) => {
   console.log(orgData)
-  const res = await fetch("http://192.168.31.207:3000/loginorg", {
+  const res = await fetch("http://localhost:3000/loginorg", {
     method: "POST",
     body: JSON.stringify(orgData),
     headers: {

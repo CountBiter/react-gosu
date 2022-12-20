@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import LabTabs from "./profile-elem.js";
-import { ForProfile } from "../if-not-user/index.js";
+import {LabTabs, UserContacts} from "./profile-elem.js";
 import Update from "./update-profile";
 import Header from "../header";
 import { image1 } from "../../image/img.js";
@@ -22,7 +21,7 @@ export default class Profile extends Component {
               </a>
             </div>
             <div className="col-1">
-              <select class="form-select bg-transparent border-primary py-2">
+              <select className="form-select bg-transparent border-primary py-2">
                 <option selected>ru</option>
                 <option value="1">kaz</option>
                 <option value="2">en</option>
@@ -41,7 +40,6 @@ export default class Profile extends Component {
                   <div className="col-8 ps-5 d-flex flex-column justify-content-between">
                     <h1 className="text-primary fw-bold">Фамилия Имя</h1>
                     <h3 className="">Роль: Админ</h3>
-                    <ForProfile />
                   </div>
                   <div className="card border-primary my-5 px-0">
                     <div className="card-title text-light d-flex bg-primary bg-opacity-50 rounded-top py-2 px-4">
@@ -50,17 +48,7 @@ export default class Profile extends Component {
                     </div>
                     <div className="row px-4 py-2">
                       <h3 className="border-bottom pb-2">Контакты:</h3>
-                      <div className="col-5 border-end">
-                        <h5 className="text-secondary">тип</h5>
-                        <h4>Рабочий</h4>
-                        <h4>What'sApp</h4>
-
-                      </div>
-                      <div className="col-7">
-                        <h5 className="text-secondary">телефон</h5>
-                        <h4>+7 (777) 777-77-77</h4>
-                        <h4>+7 (777) 777-77-77</h4>
-                      </div>
+                    <UserContacts id={JSON.parse(localStorage.getItem("token")).token} />
                     </div>
                   </div>
                 </div>

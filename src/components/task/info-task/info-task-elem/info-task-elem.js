@@ -9,9 +9,7 @@ import {
   GET_USER,
   GET_ALL_STASUS,
   UPDATE_STATE_TO_TASK,
-  GET_ORG,
   GET_ALL_IMPLEMENTER,
-  GET_STATE,
   ADD_IMPLEM_TO_TASK,
 } from "../../../../apollo-client/apollo-request";
 import { ForInfoTask } from "../../../if-not-user";
@@ -38,33 +36,34 @@ function AddCommentsToTask() {
 
   return (
     <>
-    <div class="input-group mb-3">
-      <input 
-        class="form-control" 
-        placeholder="Добавить комментарий" 
-        aria-describedby="button-addon2" 
-        onChange={(e) => setComment(e.target.value)}
-      />
-      <button 
-        class="btn btn-outline-primary pb-0" 
-        type="button" 
-        id="button-addon2" 
-        onClick={() => {
-          addCommentsToTask({
-            variables: {
-              commentsData: {
-                comments: comment,
-                task_id: taskId,
+      <div class="input-group mb-3">
+        <input
+          class="form-control"
+          placeholder="Добавить комментарий"
+          aria-describedby="button-addon2"
+          onChange={(e) => setComment(e.target.value)}
+        />
+        <button
+          class="btn btn-outline-primary pb-0"
+          type="button"
+          id="button-addon2"
+          onClick={() => {
+            addCommentsToTask({
+              variables: {
+                commentsData: {
+                  comments: comment,
+                  task_id: taskId,
+                },
+                token: userToken.token,
               },
-              token: userToken.token,
-            },
-          });
-        }}
+            });
+          }}
         >
-          <h4><i class="bi bi-chevron-double-right"></i></h4>
-          
+          <h4>
+            <i class="bi bi-chevron-double-right"></i>
+          </h4>
         </button>
-    </div>
+      </div>
     </>
   );
 }
@@ -113,10 +112,7 @@ function TaskComments() {
         time & date
       </div>
       <div className="card-body p-0">
-        <h5>
-          {item.comments}
-        </h5>
-
+        <h5>{item.comments}</h5>
       </div>
     </div>
   ));
@@ -191,9 +187,6 @@ function Task() {
 
   const { getTask } = data;
 
-
-
-
   function GetState() {
     const allState = useQuery(GET_ALL_STASUS);
 
@@ -222,38 +215,15 @@ function Task() {
     if (error) {
       return <div>{error.message} </div>;
     }
-
+    console.log(data.getStateTime)
     setInterval(() => {
-      let date = Date.now() - Number(data.getStateTime.date);
+      let date = data.getStateTime.date === null ? data.getStateTime.duration :  Date.now() - Number(data.getStateTime.date);
       setTime(date + 1000);
     }, 1000);
 
     localStorage.setItem("time", time);
 
     return <div>{formatDuration(time)}</div>;
-  }
-  function GetUserNameAuthor({ id }) {
-    const { data, loading, error } = useQuery(GET_USER, {
-      variables: { userId: id },
-    });
-
-    if (loading) {
-      return <p>Loading...</p>;
-    }
-    if (error) {
-      return <p>{error.message} </p>;
-    }
-
-    if (data.getUser.length === 0) {
-      return <span>не назначен</span>;
-    } else {
-      return data.getUser.map(({ first_name, middle_name }) => (
-        <span>
-          {first_name} {middle_name}
-          <br />
-        </span>
-      ));
-    }
   }
   const implementerSelect = [{ label: "", value: "" }];
   allImplementer.data.getAllImplementer.forEach((item) => {
@@ -280,18 +250,14 @@ function Task() {
             </div>
           </div>
           <div className="row p-0">
-
-
             <div className="col-8 pe-5">
               <div className="card bg-primary bg-opacity-25 m-0 mb-5">
                 <div className="card-body border-bottom bg-primary rounded-top">
-                  <h4 className="text-light">
-                    Задача id: {getTask._id}
-                  </h4>
+                  <h4 className="text-light">Задача id: {getTask._id}</h4>
                 </div>
                 <div className="card-body">
                   <div className="py-4">
-                    <h4>{getTask.description}</h4> 
+                    <h4>{getTask.description}</h4>
                   </div>
                   <div className="card-subtitle position-relative d-flex border-top py-2">
                     <label className="btn p-0 m-0" id="addfile-btn">
@@ -310,13 +276,15 @@ function Task() {
 
                 <div className="card-footer bg-transparent d-flex justify-content-end py-3">
                   <button className="btn bg-primary bg-opacity-75 text-light fw-bolder px-4">
-                    <h5>Сохранить</h5> 
+                    <h5>Сохранить</h5>
                   </button>
                 </div>
               </div>
               <div className="card border-primary">
                 <div className="card-body">
-                  <div className="card-title"><h4>Комментарии</h4></div>
+                  <div className="card-title">
+                    <h4>Комментарии</h4>
+                  </div>
                 </div>
                 <div className="card-footer">
                   <div className="border-bottom mb-3">
@@ -343,7 +311,7 @@ function Task() {
                   <div className="row border-bottom py-2">
                     <div className="col text-secondary">Создатель:</div>
                     <div className="col">
-                      <GetUserNameAuthor id={getTask.author_id} />
+                      <GetUserName id={getTask.author_id} />
                     </div>
                   </div>
                   <div className="row border-bottom py-2">
@@ -425,9 +393,6 @@ function Task() {
                 </div>
               </div>
             </div>
-
-
-      
           </div>
         </div>
       </div>

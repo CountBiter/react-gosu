@@ -3,7 +3,7 @@ import {
   GET_ALLTASKS,
   GET_ALL_STASUS,
 } from "../../../apollo-client/apollo-request";
-import  { formatDate } from "../../format-date/";
+import { formatDate } from "../../format-date/";
 import { GetOrgName, GetStateName, GetUserName } from "../../hooks";
 
 function AllTask({ page = 0, statusId }) {
@@ -26,55 +26,41 @@ function AllTask({ page = 0, statusId }) {
         <td>Error : {error.message}</td>
       </tr>
     );
-  
+
   if (data.getTaskByState) {
     return data.getTaskByState
-      .map(
-        (
-          {
-            _id,
-            implementer_id,
-            priority,
-            state_id,
-            author_id,
-            mata_tags,
-            create_date,
-            title,
-          },
-          
-        ) => (
-          <tr key={Math.random().toString()}>
-            <th scope="row" key={Math.random().toString()}>
-              {_id}
-            </th>
-            <td className="btn" key={Math.random().toString()}>
-              <a
-                href="/infotask"
-                onClick={() => localStorage.setItem("taskId", _id)}
-              >
-                {title}
-              </a>
-            </td>
-            <td key={Math.random().toString()}>
-              {mata_tags.map((item) => `${item}, `)}
-            </td>
-            <td key={Math.random().toString()}>
-              <GetUserName id={implementer_id} />
-            </td>
-            <td key={Math.random().toString()}>
-              <GetOrgName id={author_id} />
-            </td>
-            <td key={Math.random().toString()}>
-              <GetUserName id={author_id} />
-            </td>
-            <td key={Math.random().toString()}>{formatDate(create_date)}</td>
-            <td key={Math.random().toString()}>{priority}</td>
-            <td key={Math.random().toString()}>
-              <GetStateName id={state_id} />
-            </td>
-          </tr>
-        )
-      )
+      .map((t, i) => (
+        <tr key={Math.random().toString()}>
+          <th scope="row" key={Math.random().toString()}>
+            {i + 1}
+          </th>
+          <td className="btn" key={Math.random().toString()}>
+            <a
+              href="/infotask"
+              onClick={() => localStorage.setItem("taskId", t._id)}
+            >
+              {t.title}
+            </a>
+          </td>
+          <td key={Math.random().toString()}>
+            {t.mata_tags.map((item) => `${item}, `)}
+          </td>
+          <td key={Math.random().toString()}>
+            <GetUserName id={t.implementer_id} />
+          </td>
+          <td key={Math.random().toString()}>
+            <GetOrgName id={t.author_id} />
+          </td>
+          <td key={Math.random().toString()}>
+            <GetUserName id={t.author_id} />
+          </td>
+          <td key={Math.random().toString()}>{formatDate(t.create_date)}</td>
+          <td key={Math.random().toString()}>{t.priority}</td>
+          <td key={Math.random().toString()}>
+            <GetStateName id={t.state_id} />
+          </td>
+        </tr>
+      ))
       .reverse();
   } else {
     return (

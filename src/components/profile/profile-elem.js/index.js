@@ -1,3 +1,3 @@
-import LabTabs from "./profile-elem";
+import {LabTabs, UserContacts} from "./profile-elem";
 
-export default LabTabs
+export  {LabTabs, UserContacts}
